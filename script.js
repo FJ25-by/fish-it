@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => notif.classList.add('show'), 100);
         setTimeout(() => {
             notif.classList.remove('show');
-            setTimeout(() => document.body.removeChild(notif), 400);
+            setTimeout(() => document.body.removeChild(notif), 300);
         }, 3000);
     }
 
