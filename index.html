@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yuji Store - Digital Services</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.emailjs.com/sdk/2.6.4/email.min.js"></script>
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -91,7 +92,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal Pemesanan -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -199,8 +200,21 @@
         </div>
     </div>
 
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- Modal Link Rahasia untuk SECRET TUMBAL -->
+    <div id="secretLinkModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close" onclick="closeSecretLinkModal()">&times;</span>
+            <h3>🔗 Link Rahasia Secret Tumbal</h3>
+            <p style="word-break: break-all; background: #f0f0f0; padding: 10px; border-radius: 5px; margin: 15px 0;" id="secretLinkUrl">
+                https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server
+            </p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn" onclick="openSecretLink()">Buka Link</button>
+                <button class="btn" onclick="copySecretLink()" style="background: #48bb78;">Salin Link</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
