@@ -1,1 +1,295 @@
-function _0x4caa(_0x300627,_0x229098){_0x300627=_0x300627-0x15c;const _0x2c0364=_0x2c03();let _0x4caaa2=_0x2c0364[_0x300627];return _0x4caaa2;}const _0x2134cc=_0x4caa;(function(_0x904441,_0x185c76){const _0x55f528=_0x4caa,_0x778c72=_0x904441();while(!![]){try{const _0x45164f=parseInt(_0x55f528(0x1a5))/0x1+parseInt(_0x55f528(0x15e))/0x2*(parseInt(_0x55f528(0x1a8))/0x3)+-parseInt(_0x55f528(0x1b5))/0x4*(parseInt(_0x55f528(0x18f))/0x5)+-parseInt(_0x55f528(0x15d))/0x6+-parseInt(_0x55f528(0x1b1))/0x7*(parseInt(_0x55f528(0x1a0))/0x8)+parseInt(_0x55f528(0x1cd))/0x9*(-parseInt(_0x55f528(0x17d))/0xa)+parseInt(_0x55f528(0x194))/0xb;if(_0x45164f===_0x185c76)break;else _0x778c72['push'](_0x778c72['shift']());}catch(_0x52a0d6){_0x778c72['push'](_0x778c72['shift']());}}}(_0x2c03,0xe5343),document[_0x2134cc(0x19b)](_0x2134cc(0x196),function(){const _0x3c9cba=_0x2134cc;emailjs[_0x3c9cba(0x188)](_0x3c9cba(0x187));function _0x47daed(){const _0x5de960=_0x3c9cba,_0x47286c=new Date(),_0x777dd2=_0x47286c[_0x5de960(0x1b0)](_0x5de960(0x1c3)),_0x41766e=_0x47286c[_0x5de960(0x19e)](_0x5de960(0x1c3),{'weekday':_0x5de960(0x18a),'day':_0x5de960(0x1bf),'month':_0x5de960(0x18a),'year':_0x5de960(0x1bf)});document[_0x5de960(0x18b)]('time')['textContent']=_0x777dd2,document[_0x5de960(0x18b)]('date')[_0x5de960(0x164)]=_0x41766e;}setInterval(_0x47daed,0x3e8),_0x47daed();async function _0x415ad4(){const _0x4e6eec=_0x3c9cba;try{const _0x29600a=await fetch('https://api.ipify.org?format=json'),_0x4d6c7d=await _0x29600a['json']();document[_0x4e6eec(0x18b)](_0x4e6eec(0x1ba))[_0x4e6eec(0x164)]=_0x4d6c7d['ip'];}catch(_0x54d424){console[_0x4e6eec(0x1c9)](_0x4e6eec(0x189),_0x54d424),document[_0x4e6eec(0x18b)]('ipAddress')[_0x4e6eec(0x164)]=_0x4e6eec(0x1a2);}}_0x415ad4();async function _0x3bf5f7(){const _0x33e269=_0x3c9cba;try{if(_0x33e269(0x177)in navigator){const _0x4a9e2b=await navigator[_0x33e269(0x177)]();_0x1cfdaf(_0x4a9e2b),_0x4a9e2b['addEventListener'](_0x33e269(0x1ad),()=>_0x1cfdaf(_0x4a9e2b)),_0x4a9e2b[_0x33e269(0x19b)](_0x33e269(0x17b),()=>_0x1cfdaf(_0x4a9e2b));}else _0x1cfdaf({'level':0.85,'charging':![]});}catch(_0x45015f){console[_0x33e269(0x1c9)]('Error\x20getting\x20battery\x20status:',_0x45015f),_0x1cfdaf({'level':0.85,'charging':![]});}}function _0x1cfdaf(_0x4a1344){const _0x31ee50=_0x3c9cba,_0x1bbd4b=Math['round'](_0x4a1344['level']*0x64),_0x1fcfba=document[_0x31ee50(0x18b)](_0x31ee50(0x180)),_0x5b7baf=document[_0x31ee50(0x18b)](_0x31ee50(0x1b4)),_0x5de361=document[_0x31ee50(0x18b)](_0x31ee50(0x18d));_0x1fcfba['style']['width']=_0x1bbd4b+'%',_0x5b7baf[_0x31ee50(0x164)]=_0x1bbd4b+'%',_0x4a1344[_0x31ee50(0x1ce)]?_0x5de361[_0x31ee50(0x1cc)][_0x31ee50(0x162)]=_0x31ee50(0x1c5):_0x5de361['style'][_0x31ee50(0x162)]=_0x31ee50(0x185);}_0x3bf5f7();let _0x177616='',_0x10e99c='',_0x380391,_0x1bab7d={};function _0x2d2d90(_0x363142,_0x42243f=![]){const _0x3e1812=_0x3c9cba,_0x4435ef=document[_0x3e1812(0x16d)](_0x3e1812(0x19f));_0x4435ef[_0x3e1812(0x1bd)]='notification\x20'+(_0x42243f?_0x3e1812(0x1c9):''),_0x4435ef[_0x3e1812(0x164)]=_0x363142,document[_0x3e1812(0x181)][_0x3e1812(0x17a)](_0x4435ef),setTimeout(()=>_0x4435ef['classList'][_0x3e1812(0x161)](_0x3e1812(0x172)),0x64),setTimeout(()=>{const _0x23de8d=_0x3e1812;_0x4435ef[_0x23de8d(0x1d4)][_0x23de8d(0x193)](_0x23de8d(0x172)),setTimeout(()=>document['body'][_0x23de8d(0x178)](_0x4435ef),0x12c);},0xbb8);}window['openModal']=function(_0x566063,_0x402c9e){const _0xa0b282=_0x3c9cba;if(_0x566063===_0xa0b282(0x1a1)){_0x2d2d90(_0xa0b282(0x1cb),!![]);return;}document['getElementById']('service')[_0xa0b282(0x184)]=_0x566063,document[_0xa0b282(0x18b)]('amount')[_0xa0b282(0x184)]=_0x402c9e,document[_0xa0b282(0x18b)]('amount')[_0xa0b282(0x1ae)]=_0x402c9e,document[_0xa0b282(0x18b)]('orderModal')[_0xa0b282(0x1cc)][_0xa0b282(0x162)]='block';const _0x2cdc4e=document['getElementById'](_0xa0b282(0x1af)),_0xf829c8=document['getElementById']('email');_0x566063===_0xa0b282(0x1a3)?(_0x2cdc4e[_0xa0b282(0x1cc)][_0xa0b282(0x162)]=_0xa0b282(0x185),_0xf829c8[_0xa0b282(0x1ca)]=![]):(_0x2cdc4e[_0xa0b282(0x1cc)][_0xa0b282(0x162)]=_0xa0b282(0x166),_0xf829c8[_0xa0b282(0x1ca)]=!![]);},window[_0x3c9cba(0x176)]=function(){const _0x2ea0b8=_0x3c9cba;document['getElementById'](_0x2ea0b8(0x198))[_0x2ea0b8(0x1cc)][_0x2ea0b8(0x162)]=_0x2ea0b8(0x185),document[_0x2ea0b8(0x18b)](_0x2ea0b8(0x18e))[_0x2ea0b8(0x1cc)][_0x2ea0b8(0x162)]=_0x2ea0b8(0x185),clearInterval(_0x380391),_0x48f371();},window[_0x3c9cba(0x186)]=function(_0x2f602e){const _0xd63ebc=_0x3c9cba;document[_0xd63ebc(0x191)](_0xd63ebc(0x19d))[_0xd63ebc(0x1d5)](_0xd98c4d=>_0xd98c4d[_0xd63ebc(0x1d4)][_0xd63ebc(0x193)](_0xd63ebc(0x1d2))),event['target'][_0xd63ebc(0x1c8)](_0xd63ebc(0x174))[_0xd63ebc(0x1d4)][_0xd63ebc(0x161)]('selected'),_0x177616=_0x2f602e;};function _0x3e67c1(_0x31488b){const _0x462c62=_0x3c9cba,_0x362f45={'order_id':_0x31488b[_0x462c62(0x163)],'service':_0x31488b[_0x462c62(0x1d3)],'customer_email':_0x31488b[_0x462c62(0x192)],'customer_phone':_0x31488b[_0x462c62(0x16c)],'amount':_0x31488b[_0x462c62(0x1c6)],'payment_method':_0x31488b[_0x462c62(0x1cf)],'details':_0x31488b[_0x462c62(0x1a9)],'timestamp':_0x31488b['timestamp'],'to_email':_0x462c62(0x1a4),'from_name':'Store\x20Yuji\x20System','subject':_0x462c62(0x16e)+_0x31488b[_0x462c62(0x163)]};return emailjs[_0x462c62(0x170)](_0x462c62(0x173),'template_9hm65pq',_0x362f45)[_0x462c62(0x1aa)](_0x30b799=>{const _0x394c61=_0x462c62;console[_0x394c61(0x190)](_0x394c61(0x18c),_0x30b799),_0x2d2d90(_0x394c61(0x167));})[_0x462c62(0x16b)](_0x1382ff=>{const _0x1256c2=_0x462c62;console['error'](_0x1256c2(0x1ab),_0x1382ff),_0x2d2d90('⚠️\x20Pesanan\x20tersimpan,\x20tapi\x20gagal\x20kirim\x20email.',!![]);});}window['processOrder']=function(_0x148d49){const _0x3f4ebd=_0x3c9cba;_0x148d49[_0x3f4ebd(0x1b3)]();if(!_0x177616){alert(_0x3f4ebd(0x195));return;}const _0x4eb685=new FormData(_0x148d49[_0x3f4ebd(0x1b8)]),_0x2e6afe=Object[_0x3f4ebd(0x182)](_0x4eb685);_0x10e99c='ORD'+Date[_0x3f4ebd(0x15f)]();!_0x2e6afe['email']&&(_0x2e6afe[_0x3f4ebd(0x1c0)]=_0x3f4ebd(0x17e));_0x1bab7d={'orderId':_0x10e99c,'service':_0x2e6afe[_0x3f4ebd(0x1d3)],'customerEmail':_0x2e6afe['email'],'customerPhone':_0x2e6afe[_0x3f4ebd(0x15c)],'amount':parseInt(_0x2e6afe[_0x3f4ebd(0x1c6)])[_0x3f4ebd(0x1be)](_0x3f4ebd(0x1c3)),'paymentMethod':_0x177616['toUpperCase'](),'details':_0x2e6afe['details'],'timestamp':new Date()['toLocaleString'](_0x3f4ebd(0x1c3),{'year':'numeric','month':_0x3f4ebd(0x18a),'day':_0x3f4ebd(0x1bf),'hour':'2-digit','minute':_0x3f4ebd(0x1d1),'second':_0x3f4ebd(0x1d1)})},document[_0x3f4ebd(0x18b)](_0x3f4ebd(0x18e))['style'][_0x3f4ebd(0x162)]='block',document['getElementById']('totalAmount')[_0x3f4ebd(0x164)]=parseInt(_0x2e6afe[_0x3f4ebd(0x1c6)])[_0x3f4ebd(0x1be)](_0x3f4ebd(0x1c3)),document[_0x3f4ebd(0x18b)](_0x3f4ebd(0x163))[_0x3f4ebd(0x164)]=_0x10e99c;if(_0x177616===_0x3f4ebd(0x17c))document[_0x3f4ebd(0x18b)](_0x3f4ebd(0x171))[_0x3f4ebd(0x1cc)][_0x3f4ebd(0x162)]=_0x3f4ebd(0x166),document[_0x3f4ebd(0x18b)]('ewalletSection')[_0x3f4ebd(0x1cc)]['display']=_0x3f4ebd(0x185),_0x2ddd40();else{document[_0x3f4ebd(0x18b)](_0x3f4ebd(0x171))['style'][_0x3f4ebd(0x162)]='none',document[_0x3f4ebd(0x18b)](_0x3f4ebd(0x1d0))['style'][_0x3f4ebd(0x162)]='block';const _0x3fd091={'dana':_0x3f4ebd(0x1b6),'gopay':_0x3f4ebd(0x168)};document[_0x3f4ebd(0x18b)](_0x3f4ebd(0x1a6))[_0x3f4ebd(0x164)]=_0x3fd091[_0x177616]||_0x3f4ebd(0x16f),document[_0x3f4ebd(0x18b)](_0x3f4ebd(0x160))['textContent']=parseInt(_0x2e6afe[_0x3f4ebd(0x1c6)])[_0x3f4ebd(0x1be)]('id-ID');}_0x2aad93(0xf*0x3c),document[_0x3f4ebd(0x18b)](_0x3f4ebd(0x18e))[_0x3f4ebd(0x169)]({'behavior':_0x3f4ebd(0x165)});};function _0x2ddd40(){const _0x3eec1c=_0x3c9cba,_0xdc9c86=document[_0x3eec1c(0x1b2)](_0x3eec1c(0x1c7));_0xdc9c86[_0x3eec1c(0x183)]=_0x3eec1c(0x1c1);}function _0x2aad93(_0x17f1ac){let _0xcdb07f=_0x17f1ac,_0x51701f,_0x261854;clearInterval(_0x380391),_0x380391=setInterval(function(){const _0x1ac0e7=_0x4caa;_0x51701f=Math[_0x1ac0e7(0x199)](_0xcdb07f/0x3c),_0x261854=_0xcdb07f%0x3c,document['getElementById'](_0x1ac0e7(0x1a7))[_0x1ac0e7(0x164)]=_0x51701f[_0x1ac0e7(0x1b9)]()[_0x1ac0e7(0x175)](0x2,'0')+':'+_0x261854['toString']()[_0x1ac0e7(0x175)](0x2,'0'),--_0xcdb07f<0x0&&(clearInterval(_0x380391),document[_0x1ac0e7(0x18b)](_0x1ac0e7(0x1a7))[_0x1ac0e7(0x164)]='00:00',_0x2d2d90(_0x1ac0e7(0x1b7),!![]),document[_0x1ac0e7(0x18b)](_0x1ac0e7(0x18e))['style']['display']='none');},0x3e8);}window[_0x3c9cba(0x197)]=function(_0xe924a0){const _0x1cbcb7=_0x3c9cba;navigator['clipboard'][_0x1cbcb7(0x16a)](_0xe924a0)[_0x1cbcb7(0x1aa)](()=>_0x2d2d90(_0x1cbcb7(0x17f)))[_0x1cbcb7(0x16b)](()=>_0x2d2d90('Gagal\x20menyalin\x20nomor.',!![]));},window[_0x3c9cba(0x19c)]=function(){const _0x54db84=_0x3c9cba,_0x374109=document[_0x54db84(0x18b)](_0x54db84(0x1c2)),_0x135261=_0x374109[_0x54db84(0x1b2)](_0x54db84(0x1bc));_0x135261[_0x54db84(0x1cc)][_0x54db84(0x162)]=_0x54db84(0x1bb),_0x374109[_0x54db84(0x1c4)]=!![],setTimeout(()=>{const _0x39725b=_0x54db84;_0x135261[_0x39725b(0x1cc)][_0x39725b(0x162)]=_0x39725b(0x185),_0x374109[_0x39725b(0x1c4)]=![],_0x2d2d90('Konfirmasi\x20pembayaran\x20terkirim\x20ke\x20admin!'),_0x3e67c1(_0x1bab7d),closeModal(),_0x1bab7d[_0x39725b(0x1d3)]==='SECRET\x20TUMBAL'&&alert(_0x39725b(0x19a));},0x7d0);};function _0x48f371(){const _0x3abe2d=_0x3c9cba;document[_0x3abe2d(0x1b2)](_0x3abe2d(0x1ac))[_0x3abe2d(0x179)](),_0x177616='',document[_0x3abe2d(0x191)]('#orderModal\x20.payment-method')[_0x3abe2d(0x1d5)](_0x48ea77=>_0x48ea77[_0x3abe2d(0x1d4)][_0x3abe2d(0x193)](_0x3abe2d(0x1d2))),document[_0x3abe2d(0x18b)](_0x3abe2d(0x171))[_0x3abe2d(0x1cc)][_0x3abe2d(0x162)]='none',document[_0x3abe2d(0x18b)](_0x3abe2d(0x1d0))[_0x3abe2d(0x1cc)]['display']='none',document[_0x3abe2d(0x18b)](_0x3abe2d(0x18e))['style']['display']=_0x3abe2d(0x185);const _0x1de137=document[_0x3abe2d(0x18b)](_0x3abe2d(0x1af)),_0x51c445=document[_0x3abe2d(0x18b)]('email');_0x1de137&&(_0x1de137[_0x3abe2d(0x1cc)][_0x3abe2d(0x162)]=_0x3abe2d(0x166),_0x51c445[_0x3abe2d(0x1ca)]=!![]);}}));function _0x2c03(){const _0x28bf2d=['chargingchange','min','emailGroup','toLocaleTimeString','826bXlcxX','querySelector','preventDefault','batteryLevel','19056yFgiOK','DANA','⏰\x20Waktu\x20pembayaran\x20habis.\x20Silakan\x20buat\x20pesanan\x20ulang.','target','toString','ipAddress','inline-block','.loading','className','toLocaleString','numeric','email','<img\x20src=\x22qris.jpeg\x22\x20alt=\x22QRIS\x22\x20style=\x22max-width:\x20200px;\x20height:\x20auto;\x22>','confirmBtn','id-ID','disabled','inline','amount','#qrisSection\x20.qr-code','closest','error','required','⛔\x20Maaf,\x20stok\x20Evolved\x20Enchant\x20Stone\x20sedang\x20habis!','style','974340YpopRh','charging','paymentMethod','ewalletSection','2-digit','selected','service','classList','forEach','phone','9984612UqmOFp','3400484jsLhtk','now','transferAmount','add','display','orderId','textContent','smooth','block','✅\x20Pesanan\x20berhasil\x20dikirim\x20ke\x20admin!','GoPay','scrollIntoView','writeText','catch','customerPhone','createElement','Pesanan\x20Baru\x20-\x20','E-Wallet','send','qrisSection','show','service_0f094up','.payment-method','padStart','closeModal','getBattery','removeChild','reset','appendChild','levelchange','qris','130TMGVaK','tidak@ada.email','Nomor\x20berhasil\x20disalin!','batteryFill','body','fromEntries','innerHTML','value','none','selectPayment','QKFRgvCcL8DVQSzbw','init','Error\x20fetching\x20IP:','long','getElementById','Email\x20sent\x20successfully:','chargingIcon','paymentGateway','1825xJXRpB','log','querySelectorAll','customerEmail','remove','29572587LnyGtE','Pilih\x20metode\x20pembayaran\x20terlebih\x20dahulu!','DOMContentLoaded','copyToClipboard','orderModal','floor','🔗\x20Link\x20rahasia\x20Anda:\x0ahttps://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server','addEventListener','confirmPayment','#orderModal\x20.payment-method','toLocaleDateString','div','19656yMrjBD','Evolved\x20Enchant\x20Stone','103.175.224.44','SECRET\x20TUMBAL','rokitprek@gmail.com','1650428iRoNeG','walletName','countdown','3bOGGCe','details','then','Email\x20error:','.order-form'];_0x2c03=function(){return _0x28bf2d;};return _0x2c03();}
+document.addEventListener('DOMContentLoaded', function() {
+    emailjs.init('QKFRgvCcL8DVQSzbw'); // Inisialisasi EmailJS dengan public key
+
+    // Fungsi untuk memperbarui waktu dan tanggal
+    function updateTime() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('id-ID');
+        const dateStr = now.toLocaleDateString('id-ID', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+        document.getElementById('time').textContent = timeStr;
+        document.getElementById('date').textContent = dateStr;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Ambil IP publik
+    async function fetchIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            document.getElementById('ipAddress').textContent = data.ip;
+        } catch (err) {
+            console.error('Error fetching IP:', err);
+            document.getElementById('ipAddress').textContent = '103.175.224.44'; // IP default
+        }
+    }
+    fetchIP();
+
+    // Inisialisasi status baterai
+    async function initBattery() {
+        try {
+            if ('getBattery' in navigator) {
+                const battery = await navigator.getBattery();
+                updateBatteryStatus(battery);
+                battery.addEventListener('chargingchange', () => updateBatteryStatus(battery));
+                battery.addEventListener('levelchange', () => updateBatteryStatus(battery));
+            } else {
+                updateBatteryStatus({ level: 0.85, charging: false });
+            }
+        } catch (err) {
+            console.error('Error getting battery status:', err);
+            updateBatteryStatus({ level: 0.85, charging: false });
+        }
+    }
+
+    // Perbarui tampilan baterai
+    function updateBatteryStatus(battery) {
+        const level = Math.round(battery.level * 100);
+        const batteryFill = document.getElementById('batteryFill');
+        const batteryLevel = document.getElementById('batteryLevel');
+        const chargingIcon = document.getElementById('chargingIcon');
+        batteryFill.style.width = level + '%';
+        batteryLevel.textContent = level + '%';
+        chargingIcon.style.display = battery.charging ? 'inline' : 'none';
+    }
+    initBattery();
+
+    // Variabel global
+    let selectedPayment = '';
+    let orderId = '';
+    let countdownInterval;
+    let orderData = {};
+
+    // Menampilkan notifikasi
+    function showNotification(message, isError = false) {
+        const notif = document.createElement('div');
+        notif.className = 'notification ' + (isError ? 'error' : '');
+        notif.textContent = message;
+        document.body.appendChild(notif);
+        setTimeout(() => notif.classList.add('show'), 100);
+        setTimeout(() => {
+            notif.classList.remove('show');
+            setTimeout(() => document.body.removeChild(notif), 300);
+        }, 3000);
+    }
+
+    // Membuka modal pesanan
+    window.openModal = function(service, amount) {
+        if (service === 'Evolved Enchant Stone') {
+            showNotification('⛔ Maaf, stok Evolved Enchant Stone sedang habis!', true);
+            return;
+        }
+        document.getElementById('service').value = service;
+        document.getElementById('amount').value = amount;
+        document.getElementById('amount').min = amount;
+        document.getElementById('orderModal').style.display = 'block';
+
+        const emailGroup = document.getElementById('emailGroup');
+        const emailInput = document.getElementById('email');
+        if (service === 'SECRET TUMBAL') {
+            emailGroup.style.display = 'none';
+            emailInput.required = false;
+        } else {
+            emailGroup.style.display = 'block';
+            emailInput.required = true;
+        }
+    };
+
+    // Menutup modal
+    window.closeModal = function() {
+        document.getElementById('orderModal').style.display = 'none';
+        document.getElementById('paymentGateway').style.display = 'none';
+        clearInterval(countdownInterval);
+        resetForm();
+    };
+
+    // Memilih metode pembayaran
+    window.selectPayment = function(method) {
+        // Hapus selected dari semua
+        document.querySelectorAll('#orderModal .payment-method').forEach(el => el.classList.remove('selected'));
+        // Tambahkan selected ke yang diklik
+        event.target.closest('.payment-method').classList.add('selected');
+        selectedPayment = method;
+    };
+
+    // Mengirim email konfirmasi
+    function sendEmail(order) {
+        const params = {
+            order_id: order.orderId,
+            service: order.service,
+            customer_email: order.customerEmail,
+            customer_phone: order.customerPhone,
+            amount: order.amount,
+            payment_method: order.paymentMethod,
+            details: order.details,
+            timestamp: order.timestamp,
+            to_email: 'rokitprek@gmail.com',
+            from_name: 'Store Yuji System',
+            subject: 'Pesanan Baru - ' + order.orderId
+        };
+        return emailjs.send('service_0f094up', 'template_9hm65pq', params)
+            .then(response => {
+                console.log('Email sent successfully:', response);
+                showNotification('✅ Pesanan berhasil dikirim ke admin!');
+            })
+            .catch(error => {
+                console.error('Email error:', error);
+                showNotification('⚠️ Pesanan tersimpan, tapi gagal kirim email.', true);
+            });
+    }
+
+    // Memproses pesanan
+    window.processOrder = function(event) {
+        event.preventDefault();
+        if (!selectedPayment) {
+            alert('Pilih metode pembayaran terlebih dahulu!');
+            return;
+        }
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
+        orderId = 'ORD' + Date.now();
+        if (!data.email) {
+            data.email = 'tidak@ada.email';
+        }
+
+        orderData = {
+            orderId: orderId,
+            service: data.service,
+            customerEmail: data.email,
+            customerPhone: data.phone,
+            amount: parseInt(data.amount).toLocaleString('id-ID'),
+            paymentMethod: selectedPayment.toUpperCase(),
+            details: data.details,
+            timestamp: new Date().toLocaleString('id-ID', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            })
+        };
+
+        document.getElementById('paymentGateway').style.display = 'block';
+        document.getElementById('totalAmount').textContent = parseInt(data.amount).toLocaleString('id-ID');
+        document.getElementById('orderId').textContent = orderId;
+
+        if (selectedPayment === 'qris') {
+            document.getElementById('qrisSection').style.display = 'block';
+            document.getElementById('ewalletSection').style.display = 'none';
+            showQRIS();
+        } else {
+            document.getElementById('qrisSection').style.display = 'none';
+            document.getElementById('ewalletSection').style.display = 'block';
+            const walletMap = { dana: 'DANA', gopay: 'GoPay' };
+            document.getElementById('walletName').textContent = walletMap[selectedPayment] || 'E-Wallet';
+            document.getElementById('transferAmount').textContent = parseInt(data.amount).toLocaleString('id-ID');
+        }
+
+        startCountdown(15 * 60); // 15 menit
+        document.getElementById('paymentGateway').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // Menampilkan QRIS
+    function showQRIS() {
+        const qrContainer = document.querySelector('#qrisSection .qr-code');
+        qrContainer.innerHTML = '<img src="qris.jpeg" alt="QRIS" style="max-width: 200px; height: auto;">';
+    }
+
+    // Hitung mundur pembayaran
+    function startCountdown(seconds) {
+        let remaining = seconds;
+        clearInterval(countdownInterval);
+        countdownInterval = setInterval(function() {
+            const mins = Math.floor(remaining / 60);
+            const secs = remaining % 60;
+            document.getElementById('countdown').textContent =
+                mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+            remaining--;
+            if (remaining < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown').textContent = '00:00';
+                showNotification('⏰ Waktu pembayaran habis. Silakan buat pesanan ulang.', true);
+                document.getElementById('paymentGateway').style.display = 'none';
+            }
+        }, 1000);
+    }
+
+    // Menyalin teks ke clipboard (untuk nomor e-wallet)
+    window.copyToClipboard = function(text) {
+        navigator.clipboard.writeText(text)
+            .then(() => showNotification('Nomor berhasil disalin!'))
+            .catch(() => showNotification('Gagal menyalin nomor.', true));
+    };
+
+    // Konfirmasi pembayaran
+    window.confirmPayment = function() {
+        const confirmBtn = document.getElementById('confirmBtn');
+        const loading = confirmBtn.querySelector('.loading');
+        loading.style.display = 'inline-block';
+        confirmBtn.disabled = true;
+        setTimeout(() => {
+            loading.style.display = 'none';
+            confirmBtn.disabled = false;
+            showNotification('Konfirmasi pembayaran terkirim ke admin!');
+            sendEmail(orderData);
+            closeModal();
+
+            // Tampilkan modal link rahasia jika produk adalah SECRET TUMBAL
+            if (orderData.service === 'SECRET TUMBAL') {
+                document.getElementById('secretLinkModal').style.display = 'block';
+            }
+        }, 2000);
+    };
+
+    // Reset form
+    function resetForm() {
+        document.querySelector('.order-form').reset();
+        selectedPayment = '';
+        document.querySelectorAll('#orderModal .payment-method').forEach(el => el.classList.remove('selected'));
+        document.getElementById('qrisSection').style.display = 'none';
+        document.getElementById('ewalletSection').style.display = 'none';
+        document.getElementById('paymentGateway').style.display = 'none';
+        const emailGroup = document.getElementById('emailGroup');
+        const emailInput = document.getElementById('email');
+        if (emailGroup) {
+            emailGroup.style.display = 'block';
+            emailInput.required = true;
+        }
+    }
+
+    // Fungsi untuk modal link rahasia
+    window.closeSecretLinkModal = function() {
+        document.getElementById('secretLinkModal').style.display = 'none';
+    };
+
+    window.openSecretLink = function() {
+        const url = document.getElementById('secretLinkUrl').textContent;
+        window.open(url, '_blank');
+    };
+
+    window.copySecretLink = function() {
+        const url = document.getElementById('secretLinkUrl').textContent;
+        navigator.clipboard.writeText(url)
+            .then(() => showNotification('✅ Link berhasil disalin!'))
+            .catch(() => showNotification('❌ Gagal menyalin link', true));
+    };
+
+    // Tutup modal link rahasia saat klik di luar konten
+    window.onclick = function(event) {
+        const secretModal = document.getElementById('secretLinkModal');
+        const orderModal = document.getElementById('orderModal');
+        if (event.target === secretModal) {
+            secretModal.style.display = 'none';
+        }
+        if (event.target === orderModal) {
+            closeModal();
+        }
+    };
+});
