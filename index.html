@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuji Store - Digital Services</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.emailjs.com/sdk/2.6.4/email.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Store Yuji</h1>
+            <p><span class="status-indicator"></span>Layanan Digital Terpercaya & Berkualitas</p>
+            <div class="status-bar">
+                <div class="status-left">
+                    <div class="status-item">
+                        <div class="battery-icon">
+                            <div class="battery-fill" id="batteryFill"></div>
+                        </div>
+                        <span id="batteryLevel">100%</span>
+                        <span class="charging-icon" id="chargingIcon">⚡</span>
+                    </div>
+                </div>
+                <div class="status-center">
+                    <div class="status-item" id="realTimeClock">
+                        <span id="time">00:00:00</span>
+                        <span id="date">01 Jan 2023</span>
+                    </div>
+                </div>
+                <div class="status-right">
+                    <div class="status-item">
+                        <span id="ipAddress">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="services-grid">
+            <!-- Produk SECRET TUMBAL (aktif) -->
+            <div class="service-card">
+                <h3><span class="icon">🐟</span>SECRET TUMBAL</h3>
+                <p>Produk spesial dengan harga spesial. Dapatkan link private server setelah pembayaran.</p>
+                <div class="price">Rp 300</div>
+                <button class="btn" onclick="openModal('SECRET TUMBAL', 300)">Pesan Sekarang</button>
+            </div>
+
+            <!-- Produk Evolved Enchant Stone (stok habis) -->
+            <div class="service-card">
+                <h3><span class="icon">🔮</span>Evolved Enchant Stone</h3>
+                <p>Batu enchant untuk meningkatkan pancinganmu</p>
+                <div class="price">Rp 500</div>
+                <button class="btn" disabled style="opacity: 0.6; cursor: not-allowed;">Stok Habis</button>
+            </div>
+        </div>
+
+        <div class="payment-info">
+            <h2>💳 Metode Pembayaran</h2>
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <strong>QRIS</strong>
+                    <span>Scan & Pay</span>
+                </div>
+                <div class="payment-method">
+                    <strong>DANA</strong>
+                    <span>085803146015</span>
+                </div>
+                <div class="payment-method">
+                    <strong>GoPay</strong>
+                    <span>085803146015</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>✨ Proses otomatis 24/7 | Garansi uang kembali | Support pelanggan terbaik</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span>rokitprek@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <span>+62 858-0314-6015</span>
+                </div>
+                <div class="contact-item">
+                    <span>💬</span>
+                    <span>WhatsApp: +62 858-0314-6015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Formulir Pemesanan</h2>
+            <form class="order-form" onsubmit="processOrder(event)">
+                <div class="form-group">
+                    <label for="service">Layanan:</label>
+                    <input type="text" id="service" name="service" readonly>
+                </div>
+                <!-- Email group dengan id agar mudah diakses JavaScript -->
+                <div class="form-group" id="emailGroup">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Nomor WhatsApp:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Jumlah Pembelian (Rp):</label>
+                    <input type="number" id="amount" name="amount" min="1000" required>
+                </div>
+                <div class="form-group">
+                    <label for="details">Detail Pesanan:</label>
+                    <textarea id="details" name="details" rows="4" placeholder="Jelaskan detail pesanan Anda..." required></textarea>
+                </div>
+                
+                <div class="payment-section">
+                    <h3>Pilih Metode Pembayaran:</h3>
+                    <div class="payment-methods">
+                        <div class="payment-method" onclick="selectPayment('qris')">
+                            <strong>QRIS</strong>
+                            <span>Scan & Pay</span>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment('dana')">
+                            <strong>DANA</strong>
+                            <span>085803146015</span>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment('gopay')">
+                            <strong>GoPay</strong>
+                            <span>085803146015</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="orderBtn">Lanjutkan Pembayaran</button>
+            </form>
+
+            <!-- Payment Gateway Section -->
+            <div id="paymentGateway" class="payment-gateway">
+                <h3>💳 Pembayaran</h3>
+                <div class="amount-display">
+                    Total: Rp <span id="totalAmount">0</span>
+                </div>
+                <div class="timer">
+                    ⏰ Selesaikan pembayaran dalam: <span id="countdown">15:00</span>
+                </div>
+                
+                <div id="qrisSection" style="display: none;">
+                    <div class="qr-code">
+                        <!-- QRIS image will be inserted here by script -->
+                    </div>
+                    <div class="payment-instructions">
+                        <h4>Cara Pembayaran QRIS:</h4>
+                        <ol>
+                            <li>Buka aplikasi e-wallet atau mobile banking</li>
+                            <li>Pilih menu "Scan QR" atau "QRIS"</li>
+                            <li>Scan QR code di atas</li>
+                            <li>Masukkan nominal sesuai dengan total di atas</li>
+                            <li>Konfirmasi pembayaran</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="ewalletSection" style="display: none;">
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">
+                            Kirim ke: <strong id="walletNumber">085803146015</strong>
+                            <button class="copy-btn" onclick="copyToClipboard('085803146015')">Copy</button>
+                        </div>
+                        <div style="font-size: 1rem; color: #666;">
+                            a.n. <strong>Yuji STORE</strong>
+                        </div>
+                    </div>
+                    <div class="payment-instructions">
+                        <h4>Cara Pembayaran E-Wallet:</h4>
+                        <ol>
+                            <li>Buka aplikasi <span id="walletName">DANA</span></li>
+                            <li>Pilih menu "Kirim Uang" atau "Transfer"</li>
+                            <li>Masukkan nomor: <strong>085803146015</strong></li>
+                            <li>Masukkan nominal: <strong>Rp <span id="transferAmount">0</span></strong></li>
+                            <li>Tambahkan pesan: ID Pesanan <strong id="orderId"></strong></li>
+                            <li>Konfirmasi transfer</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" onclick="confirmPayment()" id="confirmBtn">
+                        <span class="loading" style="display: none;"></span>
+                        Saya Sudah Bayar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
