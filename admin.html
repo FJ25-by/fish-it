@@ -82,7 +82,6 @@
             <h3>Silakan Login</h3>
             <input type="password" id="password" placeholder="Masukkan password admin">
             <button class="btn-admin" onclick="login()">Login</button>
-            <p style="color:#999; margin-top:10px;">Gunakan password: <strong>admin123</strong></p>
         </div>
         <div id="stockSection" style="display:none;">
             <button class="logout" onclick="logout()">Logout</button>
@@ -113,7 +112,7 @@
 
         function login() {
             const pwd = document.getElementById('password').value;
-            if (pwd === 'admin123') { // Ganti password sesuai keinginan
+            if (pwd === 'yuji25') { // Ganti password sesuai keinginan
                 sessionStorage.setItem('adminLoggedIn', 'true');
                 showStockSection();
             } else {
