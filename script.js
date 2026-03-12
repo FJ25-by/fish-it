@@ -103,6 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let orderId = '';
     let countdownInterval;
     let orderData = {};
+    let selectedQty = null;
+    let selectedPrice = null;
 
     function showNotification(message, isError = false) {
         const notif = document.createElement('div');
@@ -146,10 +148,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         options.forEach(opt => {
-            const label = document.createElement('label');
-            label.innerHTML = `<input type="radio" name="stoneQty" value="${opt.qty}" data-price="${opt.price}" required> ${opt.qty} batu = Rp ${opt.price.toLocaleString('id-ID')}`;
-            container.appendChild(label);
+            const div = document.createElement('div');
+            div.className = 'stone-option';
+            div.dataset.qty = opt.qty;
+            div.dataset.price = opt.price;
+            div.innerHTML = `
+                <div class="stone-qty">${opt.qty}</div>
+                <div class="stone-price">Rp ${opt.price.toLocaleString('id-ID')}</div>
+            `;
+            div.addEventListener('click', function() {
+                // Hapus class selected dari semua opsi
+                document.querySelectorAll('.stone-option').forEach(el => el.classList.remove('selected'));
+                // Tambah class selected ke yang diklik
+                this.classList.add('selected');
+                // Simpan nilai yang dipilih
+                selectedQty = parseInt(this.dataset.qty);
+                selectedPrice = parseInt(this.dataset.price);
+            });
+            container.appendChild(div);
         });
+
+        // Reset pilihan sebelumnya
+        selectedQty = null;
+        selectedPrice = null;
 
         document.getElementById('orderModal').style.display = 'block';
     };
@@ -176,14 +197,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const service = document.getElementById('service').value;
-        const selectedRadio = document.querySelector('input[name="stoneQty"]:checked');
-        if (!selectedRadio) {
+
+        // Cek apakah opsi jumlah sudah dipilih
+        if (selectedQty === null || selectedPrice === null) {
             alert('Pilih jumlah terlebih dahulu!');
             return;
         }
 
-        const jumlah = parseInt(selectedRadio.value);
-        const harga = parseInt(selectedRadio.dataset.price);
+        const jumlah = selectedQty;
+        const harga = selectedPrice;
 
         if (jumlah > stocks[service]) {
             showNotification(`Stok tidak cukup! Tersisa ${stocks[service]} item.`, true);
@@ -307,7 +329,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetForm() {
         document.querySelector('.order-form').reset();
         selectedPayment = '';
-        document.querySelectorAll('#orderModal .payment-method').forEach(el => el.classList.remove('selected'));
+        selectedQty = null;
+        selectedPrice = null;
+        document.querySelectorAll('.stone-option').forEach(el => el.classList.remove('selected'));
         document.getElementById('qrisSection').style.display = 'none';
         document.getElementById('ewalletSection').style.display = 'none';
         document.getElementById('paymentGateway').style.display = 'none';
