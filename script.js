@@ -1,8 +1,56 @@
 document.addEventListener('DOMContentLoaded', function() {
-    emailjs.init('QKFRgvCcL8DVQSzbw'); // Inisialisasi EmailJS
+    // Inisialisasi EmailJS (ganti dengan public key Anda)
+    emailjs.init('QKFRgvCcL8DVQSzbw');
 
-    // Fungsi waktu, IP, baterai (sama seperti sebelumnya, tidak diubah)
-    // ... (kopikan dari kode sebelumnya, untuk menghemat tempat saya tidak tulis ulang, tapi pastikan ada)
+    // ================== FUNGSI STATUS BAR ==================
+    function updateTime() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('id-ID');
+        const dateStr = now.toLocaleDateString('id-ID', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+        document.getElementById('time').textContent = timeStr;
+        document.getElementById('date').textContent = dateStr;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    async function fetchIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            document.getElementById('ipAddress').textContent = data.ip;
+        } catch (err) {
+            document.getElementById('ipAddress').textContent = '103.175.224.44';
+        }
+    }
+    fetchIP();
+
+    async function initBattery() {
+        try {
+            if ('getBattery' in navigator) {
+                const battery = await navigator.getBattery();
+                updateBatteryStatus(battery);
+                battery.addEventListener('chargingchange', () => updateBatteryStatus(battery));
+                battery.addEventListener('levelchange', () => updateBatteryStatus(battery));
+            } else {
+                updateBatteryStatus({ level: 0.85, charging: false });
+            }
+        } catch (err) {
+            updateBatteryStatus({ level: 0.85, charging: false });
+        }
+    }
+
+    function updateBatteryStatus(battery) {
+        const level = Math.round(battery.level * 100);
+        document.getElementById('batteryFill').style.width = level + '%';
+        document.getElementById('batteryLevel').textContent = level + '%';
+        document.getElementById('chargingIcon').style.display = battery.charging ? 'inline' : 'none';
+    }
+    initBattery();
 
     // ================== FITUR STOK ==================
     let stocks = {
@@ -29,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('stock-secret').textContent = stocks['SECRET TUMBAL'];
         document.getElementById('stock-stone').textContent = stocks['Evolved Enchant Stone'];
 
-        // Disable tombol jika stok habis
+        // Update tombol
         const secretBtn = document.querySelector('#product-secret .btn');
         const stoneBtn = document.querySelector('#product-stone .btn');
         if (stocks['SECRET TUMBAL'] <= 0) {
@@ -57,12 +105,19 @@ document.addEventListener('DOMContentLoaded', function() {
     let orderData = {};
 
     function showNotification(message, isError = false) {
-        // (fungsi notifikasi sama)
+        const notif = document.createElement('div');
+        notif.className = 'notification ' + (isError ? 'error' : '');
+        notif.textContent = message;
+        document.body.appendChild(notif);
+        setTimeout(() => notif.classList.add('show'), 100);
+        setTimeout(() => {
+            notif.classList.remove('show');
+            setTimeout(() => document.body.removeChild(notif), 300);
+        }, 3000);
     }
 
     // ================== MODAL ==================
     window.openModal = function(service) {
-        // Cek stok
         if (stocks[service] <= 0) {
             showNotification(`⛔ Maaf, stok ${service} sedang habis!`, true);
             return;
@@ -71,9 +126,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('service').value = service;
         document.getElementById('stockDisplay').textContent = stocks[service];
 
-        // Tentukan opsi harga berdasarkan produk
+        // Buat opsi jumlah sesuai produk
         const container = document.getElementById('stoneOptionsContainer');
-        container.innerHTML = ''; // kosongkan
+        container.innerHTML = '';
 
         let options = [];
         if (service === 'SECRET TUMBAL') {
@@ -130,7 +185,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const jumlah = parseInt(selectedRadio.value);
         const harga = parseInt(selectedRadio.dataset.price);
 
-        // Cek stok cukup
         if (jumlah > stocks[service]) {
             showNotification(`Stok tidak cukup! Tersisa ${stocks[service]} item.`, true);
             return;
@@ -182,15 +236,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showQRIS() {
         const qrContainer = document.querySelector('#qrisSection .qr-code');
+        // Ganti dengan gambar QRIS Anda
         qrContainer.innerHTML = '<img src="qris.jpeg" alt="QRIS" style="max-width: 200px; height: auto;">';
     }
 
     function startCountdown(seconds) {
-        // (sama)
+        let remaining = seconds;
+        clearInterval(countdownInterval);
+        countdownInterval = setInterval(function() {
+            const mins = Math.floor(remaining / 60);
+            const secs = remaining % 60;
+            document.getElementById('countdown').textContent =
+                mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+            remaining--;
+            if (remaining < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown').textContent = '00:00';
+                showNotification('⏰ Waktu pembayaran habis. Silakan buat pesanan ulang.', true);
+                document.getElementById('paymentGateway').style.display = 'none';
+            }
+        }, 1000);
     }
 
     window.copyToClipboard = function(text) {
-        // (sama)
+        navigator.clipboard.writeText(text)
+            .then(() => showNotification('Nomor berhasil disalin!'))
+            .catch(() => showNotification('Gagal menyalin nomor.', true));
     };
 
     // ================== KONFIRMASI PEMBAYARAN ==================
@@ -200,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loading.style.display = 'inline-block';
         confirmBtn.disabled = true;
 
-        // Kirim email ke admin (tanpa email pelanggan)
+        // Kirim email ke admin
         sendEmail(orderData);
 
         setTimeout(() => {
@@ -209,7 +280,6 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Konfirmasi pembayaran terkirim ke admin!');
             closeModal();
 
-            // Tampilkan link rahasia jika produk adalah SECRET TUMBAL
             if (orderData.service === 'SECRET TUMBAL') {
                 document.getElementById('secretLinkModal').style.display = 'block';
             }
@@ -217,7 +287,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     function sendEmail(order) {
-        // Parameter email tanpa customer_email
         const params = {
             order_id: order.orderId,
             service: order.service,
@@ -226,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
             payment_method: order.paymentMethod,
             details: order.details,
             timestamp: order.timestamp,
-            to_email: 'rokitprek@gmail.com', // email admin tetap
+            to_email: 'rokitprek@gmail.com', // Ganti dengan email admin
             from_name: 'Store Yuji System',
             subject: 'Pesanan Baru - ' + order.orderId
         };
