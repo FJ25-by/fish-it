@@ -38,20 +38,20 @@
         </div>
 
         <div class="services-grid">
-            <!-- Produk SECRET TUMBAL (aktif) -->
-            <div class="service-card">
+            <!-- Produk SECRET TUMBAL -->
+            <div class="service-card" id="product-secret">
                 <h3><span class="icon">🐟</span>SECRET TUMBAL</h3>
                 <p>Produk spesial dengan harga spesial. Dapatkan link private server setelah pembayaran.</p>
                 <div class="price">Rp 400</div>
-                <button class="btn" onclick="openModal('SECRET TUMBAL', 400)">Pesan Sekarang (STOCK: 20)</button>
+                <button class="btn" onclick="openModal('SECRET TUMBAL', 400)">Pesan Sekarang (STOK: <span id="stock-secret">20</span>)</button>
             </div>
 
-            <!-- Produk Evolved Enchant Stone (stok habis) -->
-            <div class="service-card">
+            <!-- Produk Evolved Enchant Stone -->
+            <div class="service-card" id="product-stone">
                 <h3><span class="icon">🔮</span>Evolved Enchant Stone</h3>
                 <p>Batu enchant untuk meningkatkan pancinganmu</p>
-                <div class="price">Rp 500</div>
-                <button class="btn" onclick="openModal('Evolved Enchant Stone', 450)">Pesan Sekarang (STOCK: 16)</button>
+                <div class="price">Mulai Rp 450</div>
+                <button class="btn" onclick="openModal('Evolved Enchant Stone', 0)">Pesan Sekarang (STOK: <span id="stock-stone">20</span>)</button>
             </div>
         </div>
 
@@ -102,7 +102,6 @@
                     <label for="service">Layanan:</label>
                     <input type="text" id="service" name="service" readonly>
                 </div>
-                <!-- Email group dengan id agar mudah diakses JavaScript -->
                 <div class="form-group" id="emailGroup">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required>
@@ -111,9 +110,20 @@
                     <label for="phone">Nomor WhatsApp:</label>
                     <input type="tel" id="phone" name="phone" required>
                 </div>
-                <div class="form-group">
+                <!-- Input amount untuk produk biasa (selain batu) -->
+                <div class="form-group" id="amountGroup">
                     <label for="amount">Jumlah Pembelian (Rp):</label>
                     <input type="number" id="amount" name="amount" min="1000" required>
+                </div>
+                <!-- Opsi jumlah untuk Evolved Enchant Stone -->
+                <div class="form-group" id="stoneOptions" style="display: none;">
+                    <label>Pilih Jumlah Batu:</label>
+                    <div class="stone-options">
+                        <label><input type="radio" name="stoneQty" value="1" data-price="450" required> 1 batu = Rp 450</label>
+                        <label><input type="radio" name="stoneQty" value="5" data-price="2000"> 5 batu = Rp 2.000</label>
+                        <label><input type="radio" name="stoneQty" value="10" data-price="4000"> 10 batu = Rp 4.000</label>
+                    </div>
+                    <small>Sisa stok: <span id="stoneStockDisplay">20</span> batu</small>
                 </div>
                 <div class="form-group">
                     <label for="details">Detail Pesanan:</label>
