@@ -42,7 +42,7 @@
             <div class="service-card" id="product-secret">
                 <h3><span class="icon">🐟</span>SECRET TUMBAL</h3>
                 <p>Produk spesial dengan harga spesial. Dapatkan link private server setelah pembayaran.</p>
-                <div class="price">Rp 400 / tb</div>
+                <div class="price">Rp 400 / batu</div>
                 <button class="btn" onclick="openModal('SECRET TUMBAL')">Pesan Sekarang (STOK: <span id="stock-secret">20</span>)</button>
             </div>
 
@@ -199,11 +199,11 @@
         </div>
     </div>
 
-    <!-- Modal Link Rahasia untuk SECRET TUMBAL -->
+    <!-- Modal Link Rahasia (digunakan untuk semua produk) -->
     <div id="secretLinkModal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
             <span class="close" onclick="closeSecretLinkModal()">&times;</span>
-            <h3>🔗 Link Private Server</h3>
+            <h3 id="modalLinkTitle">🔗 Link Private Server</h3>
             <p style="word-break: break-all; background: #f0f0f0; padding: 10px; border-radius: 5px; margin: 15px 0;" id="secretLinkUrl">
                 https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server
             </p>
@@ -212,6 +212,20 @@
                 <button class="btn" onclick="copySecretLink()" style="background: #48bb78;">Salin Link</button>
             </div>
         </div>
+    </div>
+
+    <!-- Admin Panel Sederhana (untuk update stok) -->
+    <div class="admin-panel">
+        <h4>🔧 Admin: Update Stok</h4>
+        <div>
+            <label>Secret Tumbal: <input type="number" id="admin-stock-secret" value="20" min="0"></label>
+            <button onclick="updateStock('SECRET TUMBAL', 'admin-stock-secret')">Update</button>
+        </div>
+        <div>
+            <label>Enchant Stone: <input type="number" id="admin-stock-stone" value="20" min="0"></label>
+            <button onclick="updateStock('Evolved Enchant Stone', 'admin-stock-stone')">Update</button>
+        </div>
+        <p style="font-size:12px; color:#999;">Stok akan disimpan di browser (localStorage).</p>
     </div>
 
     <script src="script.js"></script>
