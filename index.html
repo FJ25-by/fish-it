@@ -14,12 +14,31 @@
             <h1>🚀 Store Yuji</h1>
             <p><span class="status-indicator"></span>Layanan Digital Terpercaya & Berkualitas</p>
             <div class="status-bar">
-                <!-- status bar tetap sama -->
+                <div class="status-left">
+                    <div class="status-item">
+                        <div class="battery-icon">
+                            <div class="battery-fill" id="batteryFill"></div>
+                        </div>
+                        <span id="batteryLevel">100%</span>
+                        <span class="charging-icon" id="chargingIcon">⚡</span>
+                    </div>
+                </div>
+                <div class="status-center">
+                    <div class="status-item" id="realTimeClock">
+                        <span id="time">00:00:00</span>
+                        <span id="date">01 Jan 2023</span>
+                    </div>
+                </div>
+                <div class="status-right">
+                    <div class="status-item">
+                        <span id="ipAddress">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="services-grid">
-            <!-- Produk SECRET TUMBAL (dengan stok) -->
+            <!-- Produk SECRET TUMBAL -->
             <div class="service-card" id="product-secret">
                 <h3><span class="icon">🐟</span>SECRET TUMBAL</h3>
                 <p>Produk spesial dengan harga spesial. Dapatkan link private server setelah pembayaran.</p>
@@ -37,11 +56,39 @@
         </div>
 
         <div class="payment-info">
-            <!-- sama -->
+            <h2>💳 Metode Pembayaran</h2>
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <strong>QRIS</strong>
+                    <span>Scan & Pay</span>
+                </div>
+                <div class="payment-method">
+                    <strong>DANA</strong>
+                    <span>085803146015</span>
+                </div>
+                <div class="payment-method">
+                    <strong>GoPay</strong>
+                    <span>085803146015</span>
+                </div>
+            </div>
         </div>
 
         <div class="footer">
-            <!-- sama -->
+            <p>✨ Proses otomatis 24/7 | Garansi uang kembali | Support pelanggan terbaik</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span>rokitprek@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <span>+62 858-0314-6015</span>
+                </div>
+                <div class="contact-item">
+                    <span>💬</span>
+                    <span>WhatsApp: +62 858-0314-6015</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -55,19 +102,18 @@
                     <label for="service">Layanan:</label>
                     <input type="text" id="service" name="service" readonly>
                 </div>
-                <!-- Field EMAIL DIHAPUS -->
+                <!-- Nomor WhatsApp -->
                 <div class="form-group">
                     <label for="phone">Nomor WhatsApp:</label>
                     <input type="tel" id="phone" name="phone" required>
                 </div>
-                <!-- Opsi jumlah untuk kedua produk -->
+                <!-- Opsi jumlah (akan diisi dinamis) -->
                 <div class="form-group" id="stoneOptions">
                     <label>Pilih Jumlah:</label>
-                    <div class="stone-options" id="stoneOptionsContainer">
-                        <!-- akan diisi dinamis oleh JS -->
-                    </div>
+                    <div class="stone-options" id="stoneOptionsContainer"></div>
                     <small>Sisa stok: <span id="stockDisplay">0</span> item</small>
                 </div>
+                <!-- Detail pesanan (opsional) -->
                 <div class="form-group">
                     <label for="details">Detail Pesanan (opsional):</label>
                     <textarea id="details" name="details" rows="4" placeholder="Tulis catatan jika ada..."></textarea>
@@ -94,16 +140,78 @@
                 <button type="submit" class="btn" id="orderBtn">Lanjutkan Pembayaran</button>
             </form>
 
-            <!-- Payment Gateway Section (sama) -->
+            <!-- Payment Gateway Section -->
             <div id="paymentGateway" class="payment-gateway">
-                <!-- ... -->
+                <h3>💳 Pembayaran</h3>
+                <div class="amount-display">
+                    Total: Rp <span id="totalAmount">0</span>
+                </div>
+                <div class="timer">
+                    ⏰ Selesaikan pembayaran dalam: <span id="countdown">15:00</span>
+                </div>
+                
+                <div id="qrisSection" style="display: none;">
+                    <div class="qr-code">
+                        <!-- QRIS image akan diisi oleh script -->
+                    </div>
+                    <div class="payment-instructions">
+                        <h4>Cara Pembayaran QRIS:</h4>
+                        <ol>
+                            <li>Buka aplikasi e-wallet atau mobile banking</li>
+                            <li>Pilih menu "Scan QR" atau "QRIS"</li>
+                            <li>Scan QR code di atas</li>
+                            <li>Masukkan nominal sesuai dengan total di atas</li>
+                            <li>Konfirmasi pembayaran</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="ewalletSection" style="display: none;">
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">
+                            Kirim ke: <strong id="walletNumber">085803146015</strong>
+                            <button class="copy-btn" onclick="copyToClipboard('085803146015')">Copy</button>
+                        </div>
+                        <div style="font-size: 1rem; color: #666;">
+                            a.n. <strong>Yuji STORE</strong>
+                        </div>
+                    </div>
+                    <div class="payment-instructions">
+                        <h4>Cara Pembayaran E-Wallet:</h4>
+                        <ol>
+                            <li>Buka aplikasi <span id="walletName">DANA</span></li>
+                            <li>Pilih menu "Kirim Uang" atau "Transfer"</li>
+                            <li>Masukkan nomor: <strong>085803146015</strong></li>
+                            <li>Masukkan nominal: <strong>Rp <span id="transferAmount">0</span></strong></li>
+                            <li>Tambahkan pesan: ID Pesanan <strong id="orderId"></strong></li>
+                            <li>Konfirmasi transfer</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" onclick="confirmPayment()" id="confirmBtn">
+                        <span class="loading" style="display: none;"></span>
+                        Saya Sudah Bayar
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Link Rahasia (sama) -->
+    <!-- Modal Link Rahasia untuk SECRET TUMBAL -->
     <div id="secretLinkModal" class="modal">
-        <!-- ... -->
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close" onclick="closeSecretLinkModal()">&times;</span>
+            <h3>🔗 Link Private Server</h3>
+            <p style="word-break: break-all; background: #f0f0f0; padding: 10px; border-radius: 5px; margin: 15px 0;" id="secretLinkUrl">
+                https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server
+            </p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn" onclick="openSecretLink()">Buka Link</button>
+                <button class="btn" onclick="copySecretLink()" style="background: #48bb78;">Salin Link</button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
