@@ -106,13 +106,13 @@ body {
     padding: 8px 12px;
 }
 
-.time-display {
+#time {
     font-size: 1rem;
     font-weight: bold;
     line-height: 1.2;
 }
 
-.date-display {
+#date {
     font-size: 0.8rem;
     opacity: 0.9;
     line-height: 1.2;
@@ -306,6 +306,7 @@ body {
     color: rgba(255, 255, 255, 0.9);
 }
 
+/* Modal */
 .modal {
     display: none;
     position: fixed;
@@ -490,6 +491,7 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+/* Notifikasi */
 .notification {
     position: fixed;
     top: 20px;
@@ -512,7 +514,7 @@ body {
     background: #e53e3e;
 }
 
-/* Grid untuk opsi jumlah (tambahan) */
+/* Grid untuk opsi jumlah (kotak-kotak) */
 .stone-options-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -564,14 +566,50 @@ body {
     color: white;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-    .stone-options-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+/* Admin Panel */
+.admin-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    z-index: 9999;
+    width: 250px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
 }
 
-/* --- DESKTOP RESPONSIVE DESIGN --- */
+.admin-panel h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #48bb78;
+}
+
+.admin-panel input {
+    width: 60px;
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: none;
+}
+
+.admin-panel button {
+    background: #48bb78;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.admin-panel button:hover {
+    background: #38a169;
+}
+
+/* Responsive Design */
 @media (min-width: 1024px) {
     .status-bar {
         top: 20px;
@@ -589,13 +627,13 @@ body {
         min-width: 140px;
     }
 
-    .time-display {
+    #time {
         font-size: 1.3rem;
         font-weight: 600;
         margin-bottom: 2px;
     }
 
-    .date-display {
+    #date {
         font-size: 0.9rem;
         opacity: 0.85;
     }
@@ -619,7 +657,6 @@ body {
     }
 }
 
-/* --- TABLET RESPONSIVE DESIGN --- */
 @media (min-width: 769px) and (max-width: 1023px) {
     .status-bar {
         top: 18px;
@@ -636,12 +673,12 @@ body {
         min-width: 120px;
     }
 
-    .time-display {
+    #time {
         font-size: 1.1rem;
         font-weight: 600;
     }
 
-    .date-display {
+    #date {
         font-size: 0.85rem;
     }
     
@@ -659,7 +696,6 @@ body {
     }
 }
 
-/* --- MOBILE RESPONSIVE DESIGN --- */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -697,11 +733,11 @@ body {
         padding: 6px 10px;
     }
 
-    .time-display {
+    #time {
         font-size: 0.9rem;
     }
 
-    .date-display {
+    #date {
         font-size: 0.7rem;
     }
     
@@ -713,6 +749,10 @@ body {
     .contact-info {
         flex-direction: column;
         gap: 15px;
+    }
+
+    .stone-options-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -746,11 +786,11 @@ body {
         padding: 5px 8px;
     }
 
-    .time-display {
+    #time {
         font-size: 0.8rem;
     }
 
-    .date-display {
+    #date {
         font-size: 0.6rem;
     }
     
@@ -765,6 +805,10 @@ body {
     }
     
     .payment-methods {
+        grid-template-columns: 1fr;
+    }
+
+    .stone-options-grid {
         grid-template-columns: 1fr;
     }
 }
