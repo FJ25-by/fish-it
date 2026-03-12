@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Yuji Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <h1>🔧 Admin Panel</h1>
+        <div id="loginSection">
+            <h2>Login</h2>
+            <input type="password" id="passwordInput" placeholder="Masukkan password">
+            <button onclick="login()">Masuk</button>
+            <p id="loginError" style="color:red; display:none;">Password salah!</p>
+        </div>
+
+        <div id="adminPanel" style="display: none;">
+            <h2>Update Stok Produk</h2>
+            <div class="admin-stock">
+                <label>Secret Tumbal:</label>
+                <input type="number" id="admin-stock-secret" min="0">
+                <button onclick="updateStock('SECRET TUMBAL', 'admin-stock-secret')">Update</button>
+                <span>Stok saat ini: <span id="current-stock-secret">0</span></span>
+            </div>
+            <div class="admin-stock">
+                <label>Evolved Enchant Stone:</label>
+                <input type="number" id="admin-stock-stone" min="0">
+                <button onclick="updateStock('Evolved Enchant Stone', 'admin-stock-stone')">Update</button>
+                <span>Stok saat ini: <span id="current-stock-stone">0</span></span>
+            </div>
+            <button onclick="logout()" style="margin-top:20px; background:#e53e3e;">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        // Password hardcoded (ganti sesuai keinginan)
+        const ADMIN_PASSWORD = "admin123";
+
+        // Data stok (sama dengan di store)
+        let stocks = {
+            'SECRET TUMBAL': 20,
+            'Evolved Enchant Stone': 20
+        };
+
+        // Muat stok dari localStorage
+        function loadStocks() {
+            const saved = localStorage.getItem('productStocks');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    stocks = { ...stocks, ...parsed };
+                } catch (e) {}
+            }
+            // Tampilkan stok saat ini
+            document.getElementById('current-stock-secret').textContent = stocks['SECRET TUMBAL'];
+            document.getElementById('current-stock-stone').textContent = stocks['Evolved Enchant Stone'];
+            document.getElementById('admin-stock-secret').value = stocks['SECRET TUMBAL'];
+            document.getElementById('admin-stock-stone').value = stocks['Evolved Enchant Stone'];
+        }
+
+        // Simpan stok ke localStorage
+        function saveStocks() {
+            localStorage.setItem('productStocks', JSON.stringify(stocks));
+        }
+
+        // Fungsi login
+        function login() {
+            const pwd = document.getElementById('passwordInput').value;
+            if (pwd === ADMIN_PASSWORD) {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadStocks(); // refresh data
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        // Fungsi logout
+        function logout() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        // Fungsi update stok
+        function updateStock(productName, inputId) {
+            const newStock = parseInt(document.getElementById(inputId).value);
+            if (isNaN(newStock) || newStock < 0) {
+                alert('Masukkan angka valid');
+                return;
+            }
+            stocks[productName] = newStock;
+            saveStocks();
+            loadStocks(); // perbarui tampilan
+            alert(`Stok ${productName} diubah menjadi ${newStock}`);
+        }
+
+        // Cek apakah sudah login sebelumnya? (gunakan sessionStorage agar tidak tetap login setelah tab ditutup)
+        // Kita sederhanakan, tidak perlu.
+    </script>
+</body>
+</html>
