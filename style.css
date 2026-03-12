@@ -512,6 +512,65 @@ body {
     background: #e53e3e;
 }
 
+/* Grid untuk opsi jumlah (tambahan) */
+.stone-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.stone-option {
+    background: #f7fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.stone-option:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
+}
+
+.stone-option.selected {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #5a67d8;
+    color: white;
+}
+
+.stone-option.selected .stone-price {
+    color: rgba(255,255,255,0.9);
+}
+
+.stone-qty {
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.stone-price {
+    font-size: 1rem;
+    color: #4a5568;
+    margin-top: 5px;
+}
+
+.stone-option.selected .stone-qty,
+.stone-option.selected .stone-price {
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .stone-options-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 /* --- DESKTOP RESPONSIVE DESIGN --- */
 @media (min-width: 1024px) {
     .status-bar {
@@ -699,32 +758,6 @@ body {
         width: 16px;
         height: 8px;
     }
-
-    /* Tambahan untuk opsi batu */
-.stone-options label {
-    display: block;
-    margin: 8px 0;
-    padding: 10px;
-    background: #f7fafc;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 2px solid #e2e8f0;
-    transition: all 0.2s;
-}
-.stone-options label:hover {
-    background: #edf2f7;
-    border-color: #667eea;
-}
-.stone-options input[type="radio"] {
-    margin-right: 10px;
-    transform: scale(1.1);
-}
-.stone-options small {
-    display: block;
-    margin-top: 10px;
-    color: #4a5568;
-    font-style: italic;
-}
     
     .modal-content {
         padding: 20px;
