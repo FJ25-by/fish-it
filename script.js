@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    emailjs.init('QKFRgvCcL8DVQSzbw'); // Inisialisasi EmailJS dengan public key
+    emailjs.init('QKFRgvCcL8DVQSzbw'); // Inisialisasi EmailJS
 
     // Fungsi untuk memperbarui waktu dan tanggal
     function updateTime() {
@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Perbarui tampilan baterai
     function updateBatteryStatus(battery) {
         const level = Math.round(battery.level * 100);
         const batteryFill = document.getElementById('batteryFill');
@@ -59,13 +58,54 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     initBattery();
 
-    // Variabel global
+    // ================== FITUR STOK ==================
+    // Stok awal
+    let stocks = {
+        'SECRET TUMBAL': 20,
+        'Evolved Enchant Stone': 20
+    };
+
+    // Muat stok dari localStorage jika ada
+    function loadStocks() {
+        const saved = localStorage.getItem('productStocks');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                stocks = { ...stocks, ...parsed };
+            } catch (e) {}
+        }
+        updateStockDisplay();
+    }
+
+    // Simpan stok ke localStorage
+    function saveStocks() {
+        localStorage.setItem('productStocks', JSON.stringify(stocks));
+    }
+
+    // Perbarui tampilan stok di tombol
+    function updateStockDisplay() {
+        document.getElementById('stock-secret').textContent = stocks['SECRET TUMBAL'];
+        document.getElementById('stock-stone').textContent = stocks['Evolved Enchant Stone'];
+        // Jika stok habis, disable tombol
+        const stoneBtn = document.querySelector('#product-stone .btn');
+        if (stocks['Evolved Enchant Stone'] <= 0) {
+            stoneBtn.disabled = true;
+            stoneBtn.textContent = 'Stok Habis';
+        } else {
+            stoneBtn.disabled = false;
+            stoneBtn.innerHTML = `Pesan Sekarang (STOK: <span id="stock-stone">${stocks['Evolved Enchant Stone']}</span>)`;
+        }
+        // Untuk secret tumbal, bisa juga disable jika stok habis (tapi tidak diminta)
+    }
+
+    loadStocks();
+
+    // ================== VARIABEL GLOBAL ==================
     let selectedPayment = '';
     let orderId = '';
     let countdownInterval;
     let orderData = {};
 
-    // Menampilkan notifikasi
     function showNotification(message, isError = false) {
         const notif = document.createElement('div');
         notif.className = 'notification ' + (isError ? 'error' : '');
@@ -78,29 +118,50 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 
-    // Membuka modal pesanan
+    // ================== MODAL ==================
     window.openModal = function(service, amount) {
-        if (service === 'Evolved Enchant Stone') {
+        // Cek stok untuk Evolved Enchant Stone
+        if (service === 'Evolved Enchant Stone' && stocks[service] <= 0) {
             showNotification('⛔ Maaf, stok Evolved Enchant Stone sedang habis!', true);
             return;
         }
-        document.getElementById('service').value = service;
-        document.getElementById('amount').value = amount;
-        document.getElementById('amount').min = amount;
-        document.getElementById('orderModal').style.display = 'block';
 
+        document.getElementById('service').value = service;
+        const amountGroup = document.getElementById('amountGroup');
+        const stoneOptions = document.getElementById('stoneOptions');
         const emailGroup = document.getElementById('emailGroup');
         const emailInput = document.getElementById('email');
-        if (service === 'SECRET TUMBAL') {
-            emailGroup.style.display = 'none';
-            emailInput.required = false;
-        } else {
+
+        if (service === 'Evolved Enchant Stone') {
+            // Sembunyikan input amount, tampilkan opsi batu
+            amountGroup.style.display = 'none';
+            stoneOptions.style.display = 'block';
+            document.getElementById('stoneStockDisplay').textContent = stocks[service];
+            // Untuk produk batu, email tetap diperlukan? Bisa optional, kita biarkan sesuai aturan (tetap tampil)
             emailGroup.style.display = 'block';
             emailInput.required = true;
+            // Hapus required dari input amount
+            document.getElementById('amount').required = false;
+        } else {
+            // Tampilkan input amount, sembunyikan opsi batu
+            amountGroup.style.display = 'block';
+            stoneOptions.style.display = 'none';
+            document.getElementById('amount').value = amount;
+            document.getElementById('amount').min = amount;
+            document.getElementById('amount').required = true;
+            // Untuk secret tumbal, email tidak diperlukan
+            if (service === 'SECRET TUMBAL') {
+                emailGroup.style.display = 'none';
+                emailInput.required = false;
+            } else {
+                emailGroup.style.display = 'block';
+                emailInput.required = true;
+            }
         }
+
+        document.getElementById('orderModal').style.display = 'block';
     };
 
-    // Menutup modal
     window.closeModal = function() {
         document.getElementById('orderModal').style.display = 'none';
         document.getElementById('paymentGateway').style.display = 'none';
@@ -108,42 +169,13 @@ document.addEventListener('DOMContentLoaded', function() {
         resetForm();
     };
 
-    // Memilih metode pembayaran
     window.selectPayment = function(method) {
-        // Hapus selected dari semua
         document.querySelectorAll('#orderModal .payment-method').forEach(el => el.classList.remove('selected'));
-        // Tambahkan selected ke yang diklik
         event.target.closest('.payment-method').classList.add('selected');
         selectedPayment = method;
     };
 
-    // Mengirim email konfirmasi
-    function sendEmail(order) {
-        const params = {
-            order_id: order.orderId,
-            service: order.service,
-            customer_email: order.customerEmail,
-            customer_phone: order.customerPhone,
-            amount: order.amount,
-            payment_method: order.paymentMethod,
-            details: order.details,
-            timestamp: order.timestamp,
-            to_email: 'rokitprek@gmail.com',
-            from_name: 'Store Yuji System',
-            subject: 'Pesanan Baru - ' + order.orderId
-        };
-        return emailjs.send('service_0f094up', 'template_9hm65pq', params)
-            .then(response => {
-                console.log('Email sent successfully:', response);
-                showNotification('✅ Pesanan berhasil dikirim ke admin!');
-            })
-            .catch(error => {
-                console.error('Email error:', error);
-                showNotification('⚠️ Pesanan tersimpan, tapi gagal kirim email.', true);
-            });
-    }
-
-    // Memproses pesanan
+    // ================== PROSES PESANAN ==================
     window.processOrder = function(event) {
         event.preventDefault();
         if (!selectedPayment) {
@@ -151,33 +183,68 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData);
-        orderId = 'ORD' + Date.now();
-        if (!data.email) {
-            data.email = 'tidak@ada.email';
+        const form = event.target;
+        const service = document.getElementById('service').value;
+        let totalHarga = 0;
+        let jumlahBatu = 0;
+
+        if (service === 'Evolved Enchant Stone') {
+            // Ambil opsi batu yang dipilih
+            const selectedRadio = document.querySelector('input[name="stoneQty"]:checked');
+            if (!selectedRadio) {
+                alert('Pilih jumlah batu terlebih dahulu!');
+                return;
+            }
+            jumlahBatu = parseInt(selectedRadio.value);
+            const hargaSatuan = parseInt(selectedRadio.dataset.price);
+            totalHarga = hargaSatuan;
+
+            // Cek stok cukup
+            if (jumlahBatu > stocks[service]) {
+                showNotification(`Stok tidak cukup! Tersisa ${stocks[service]} batu.`, true);
+                return;
+            }
+        } else {
+            // Produk biasa, ambil dari input amount
+            totalHarga = parseInt(document.getElementById('amount').value);
+            if (isNaN(totalHarga) || totalHarga < 1000) {
+                alert('Masukkan jumlah pembelian yang valid (min Rp 1000)');
+                return;
+            }
         }
 
+        const orderId = 'ORD' + Date.now();
+        const customerEmail = document.getElementById('email').value || 'tidak@ada.email';
+        const customerPhone = document.getElementById('phone').value;
+        const details = document.getElementById('details').value;
+        const paymentMethod = selectedPayment.toUpperCase();
+
+        // Data untuk dikirim via email
         orderData = {
             orderId: orderId,
-            service: data.service,
-            customerEmail: data.email,
-            customerPhone: data.phone,
-            amount: parseInt(data.amount).toLocaleString('id-ID'),
-            paymentMethod: selectedPayment.toUpperCase(),
-            details: data.details,
+            service: service,
+            customerEmail: customerEmail,
+            customerPhone: customerPhone,
+            amount: totalHarga.toLocaleString('id-ID'),
+            paymentMethod: paymentMethod,
+            details: details + (jumlahBatu ? ` (Jumlah batu: ${jumlahBatu})` : ''),
             timestamp: new Date().toLocaleString('id-ID', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
+                year: 'numeric', month: 'long', day: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
             })
         };
 
+        // Kurangi stok jika produk batu
+        if (service === 'Evolved Enchant Stone') {
+            stocks[service] -= jumlahBatu;
+            saveStocks();
+            updateStockDisplay();
+        }
+        // Untuk produk lain, kita tidak kurangi stok (karena tidak ada stok)
+
+        // Tampilkan gateway pembayaran
         document.getElementById('paymentGateway').style.display = 'block';
-        document.getElementById('totalAmount').textContent = parseInt(data.amount).toLocaleString('id-ID');
+        document.getElementById('totalAmount').textContent = totalHarga.toLocaleString('id-ID');
         document.getElementById('orderId').textContent = orderId;
 
         if (selectedPayment === 'qris') {
@@ -189,20 +256,18 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('ewalletSection').style.display = 'block';
             const walletMap = { dana: 'DANA', gopay: 'GoPay' };
             document.getElementById('walletName').textContent = walletMap[selectedPayment] || 'E-Wallet';
-            document.getElementById('transferAmount').textContent = parseInt(data.amount).toLocaleString('id-ID');
+            document.getElementById('transferAmount').textContent = totalHarga.toLocaleString('id-ID');
         }
 
         startCountdown(15 * 60); // 15 menit
         document.getElementById('paymentGateway').scrollIntoView({ behavior: 'smooth' });
     };
 
-    // Menampilkan QRIS
     function showQRIS() {
         const qrContainer = document.querySelector('#qrisSection .qr-code');
         qrContainer.innerHTML = '<img src="qris.jpeg" alt="QRIS" style="max-width: 200px; height: auto;">';
     }
 
-    // Hitung mundur pembayaran
     function startCountdown(seconds) {
         let remaining = seconds;
         clearInterval(countdownInterval);
@@ -221,24 +286,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1000);
     }
 
-    // Menyalin teks ke clipboard (untuk nomor e-wallet)
     window.copyToClipboard = function(text) {
         navigator.clipboard.writeText(text)
             .then(() => showNotification('Nomor berhasil disalin!'))
             .catch(() => showNotification('Gagal menyalin nomor.', true));
     };
 
-    // Konfirmasi pembayaran
+    // ================== KONFIRMASI PEMBAYARAN ==================
     window.confirmPayment = function() {
         const confirmBtn = document.getElementById('confirmBtn');
         const loading = confirmBtn.querySelector('.loading');
         loading.style.display = 'inline-block';
         confirmBtn.disabled = true;
+
+        // Kirim email konfirmasi ke admin
+        sendEmail(orderData);
+
         setTimeout(() => {
             loading.style.display = 'none';
             confirmBtn.disabled = false;
             showNotification('Konfirmasi pembayaran terkirim ke admin!');
-            sendEmail(orderData);
             closeModal();
 
             // Tampilkan modal link rahasia jika produk adalah SECRET TUMBAL
@@ -248,7 +315,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 2000);
     };
 
-    // Reset form
+    function sendEmail(order) {
+        const params = {
+            order_id: order.orderId,
+            service: order.service,
+            customer_email: order.customerEmail,
+            customer_phone: order.customerPhone,
+            amount: order.amount,
+            payment_method: order.paymentMethod,
+            details: order.details,
+            timestamp: order.timestamp,
+            to_email: 'rokitprek@gmail.com',
+            from_name: 'Store Yuji System',
+            subject: 'Pesanan Baru - ' + order.orderId
+        };
+        return emailjs.send('service_0f094up', 'template_9hm65pq', params)
+            .then(response => console.log('Email sent:', response))
+            .catch(error => console.error('Email error:', error));
+    }
+
     function resetForm() {
         document.querySelector('.order-form').reset();
         selectedPayment = '';
@@ -256,15 +341,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('qrisSection').style.display = 'none';
         document.getElementById('ewalletSection').style.display = 'none';
         document.getElementById('paymentGateway').style.display = 'none';
-        const emailGroup = document.getElementById('emailGroup');
-        const emailInput = document.getElementById('email');
-        if (emailGroup) {
-            emailGroup.style.display = 'block';
-            emailInput.required = true;
-        }
+        document.getElementById('amountGroup').style.display = 'block';
+        document.getElementById('stoneOptions').style.display = 'none';
     }
 
-    // Fungsi untuk modal link rahasia
+    // ================== MODAL LINK RAHASIA ==================
     window.closeSecretLinkModal = function() {
         document.getElementById('secretLinkModal').style.display = 'none';
     };
@@ -281,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(() => showNotification('❌ Gagal menyalin link', true));
     };
 
-    // Tutup modal link rahasia saat klik di luar konten
+    // Tutup modal jika klik di luar
     window.onclick = function(event) {
         const secretModal = document.getElementById('secretLinkModal');
         const orderModal = document.getElementById('orderModal');
