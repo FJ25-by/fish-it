@@ -92,8 +92,12 @@
         </div>
     </div>
 
+    <!-- Tombol menuju halaman Admin -->
+    <a href="admin.html" class="admin-link">🔧 Admin</a>
+
     <!-- Modal Pemesanan -->
     <div id="orderModal" class="modal">
+        <!-- ... konten modal (sama seperti sebelumnya) ... -->
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Formulir Pemesanan</h2>
@@ -102,18 +106,15 @@
                     <label for="service">Layanan:</label>
                     <input type="text" id="service" name="service" readonly>
                 </div>
-                <!-- Nomor WhatsApp -->
                 <div class="form-group">
                     <label for="phone">Nomor WhatsApp:</label>
                     <input type="tel" id="phone" name="phone" required>
                 </div>
-                <!-- Opsi jumlah dengan tampilan kotak -->
                 <div class="form-group" id="stoneOptions">
                     <label>Pilih Jumlah:</label>
                     <div class="stone-options-grid" id="stoneOptionsContainer"></div>
                     <small>Sisa stok: <span id="stockDisplay">0</span> item</small>
                 </div>
-                <!-- Detail pesanan (opsional) -->
                 <div class="form-group">
                     <label for="details">Detail Pesanan (opsional):</label>
                     <textarea id="details" name="details" rows="4" placeholder="Tulis catatan jika ada..."></textarea>
@@ -152,7 +153,7 @@
                 
                 <div id="qrisSection" style="display: none;">
                     <div class="qr-code">
-                        <!-- QRIS image akan diisi oleh script -->
+                        <!-- QRIS image -->
                     </div>
                     <div class="payment-instructions">
                         <h4>Cara Pembayaran QRIS:</h4>
@@ -199,7 +200,7 @@
         </div>
     </div>
 
-    <!-- Modal Link Rahasia (digunakan untuk semua produk) -->
+    <!-- Modal Link Rahasia -->
     <div id="secretLinkModal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
             <span class="close" onclick="closeSecretLinkModal()">&times;</span>
@@ -212,20 +213,6 @@
                 <button class="btn" onclick="copySecretLink()" style="background: #48bb78;">Salin Link</button>
             </div>
         </div>
-    </div>
-
-    <!-- Admin Panel Sederhana (untuk update stok) -->
-    <div class="admin-panel">
-        <h4>🔧 Admin: Update Stok</h4>
-        <div>
-            <label>Secret Tumbal: <input type="number" id="admin-stock-secret" value="20" min="0"></label>
-            <button onclick="updateStock('SECRET TUMBAL', 'admin-stock-secret')">Update</button>
-        </div>
-        <div>
-            <label>Enchant Stone: <input type="number" id="admin-stock-stone" value="20" min="0"></label>
-            <button onclick="updateStock('Evolved Enchant Stone', 'admin-stock-stone')">Update</button>
-        </div>
-        <p style="font-size:12px; color:#999;">Stok akan disimpan di browser (localStorage).</p>
     </div>
 
     <script src="script.js"></script>
