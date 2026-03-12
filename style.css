@@ -566,49 +566,6 @@ body {
     color: white;
 }
 
-/* Admin Panel */
-.admin-panel {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.8);
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 14px;
-    z-index: 9999;
-    width: 250px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-}
-
-.admin-panel h4 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: #48bb78;
-}
-
-.admin-panel input {
-    width: 60px;
-    padding: 5px;
-    margin: 5px 0;
-    border-radius: 4px;
-    border: none;
-}
-
-.admin-panel button {
-    background: #48bb78;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-.admin-panel button:hover {
-    background: #38a169;
-}
-
 /* Responsive Design */
 @media (min-width: 1024px) {
     .status-bar {
@@ -811,4 +768,39 @@ body {
     .stone-options-grid {
         grid-template-columns: 1fr;
     }
+
+    /* Tombol admin (link menuju admin.html) */
+.admin-link {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    z-index: 999;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, #5a67d8, #6b46a0);
+}
+
+.admin-link:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
+}
 }
