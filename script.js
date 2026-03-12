@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showProductLink(service) {
         document.getElementById('secretLinkUrl').textContent = productLinks[service];
-        document.getElementById('modalLinkTitle').innerHTML = service === 'SECRET TUMBAL' ? '🔗 Link Private Server' : '🔗 Link Evolved Enchant Stone';
+        document.getElementById('modalLinkTitle').innerHTML = service === 'SECRET TUMBAL' ? '🔗 Link Private Server' : '🔗 Link Private Server';
         document.getElementById('secretLinkModal').style.display = 'block';
     }
 
