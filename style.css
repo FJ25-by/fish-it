@@ -699,6 +699,32 @@ body {
         width: 16px;
         height: 8px;
     }
+
+    /* Tambahan untuk opsi batu */
+.stone-options label {
+    display: block;
+    margin: 8px 0;
+    padding: 10px;
+    background: #f7fafc;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid #e2e8f0;
+    transition: all 0.2s;
+}
+.stone-options label:hover {
+    background: #edf2f7;
+    border-color: #667eea;
+}
+.stone-options input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.1);
+}
+.stone-options small {
+    display: block;
+    margin-top: 10px;
+    color: #4a5568;
+    font-style: italic;
+}
     
     .modal-content {
         padding: 20px;
