@@ -52,6 +52,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     initBattery();
 
+    // ================== DATA LINK PRODUK (SAMA UNTUK KEDUANYA) ==================
+    const productLinks = {
+        'SECRET TUMBAL': 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server',
+        'Evolved Enchant Stone': 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server' // link yang sama
+    };
+
     // ================== FITUR STOK ==================
     let stocks = {
         'SECRET TUMBAL': 20,
@@ -67,6 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (e) {}
         }
         updateStockDisplay();
+        document.getElementById('admin-stock-secret').value = stocks['SECRET TUMBAL'];
+        document.getElementById('admin-stock-stone').value = stocks['Evolved Enchant Stone'];
     }
 
     function saveStocks() {
@@ -77,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('stock-secret').textContent = stocks['SECRET TUMBAL'];
         document.getElementById('stock-stone').textContent = stocks['Evolved Enchant Stone'];
 
-        // Update tombol
         const secretBtn = document.querySelector('#product-secret .btn');
         const stoneBtn = document.querySelector('#product-stone .btn');
         if (stocks['SECRET TUMBAL'] <= 0) {
@@ -118,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 
-    // ================== MODAL ==================
+    // ================== MODAL PEMESANAN ==================
     window.openModal = function(service) {
         if (stocks[service] <= 0) {
             showNotification(`⛔ Maaf, stok ${service} sedang habis!`, true);
@@ -128,7 +135,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('service').value = service;
         document.getElementById('stockDisplay').textContent = stocks[service];
 
-        // Buat opsi jumlah sesuai produk
         const container = document.getElementById('stoneOptionsContainer');
         container.innerHTML = '';
 
@@ -157,18 +163,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="stone-price">Rp ${opt.price.toLocaleString('id-ID')}</div>
             `;
             div.addEventListener('click', function() {
-                // Hapus class selected dari semua opsi
                 document.querySelectorAll('.stone-option').forEach(el => el.classList.remove('selected'));
-                // Tambah class selected ke yang diklik
                 this.classList.add('selected');
-                // Simpan nilai yang dipilih
                 selectedQty = parseInt(this.dataset.qty);
                 selectedPrice = parseInt(this.dataset.price);
             });
             container.appendChild(div);
         });
 
-        // Reset pilihan sebelumnya
         selectedQty = null;
         selectedPrice = null;
 
@@ -198,7 +200,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const service = document.getElementById('service').value;
 
-        // Cek apakah opsi jumlah sudah dipilih
         if (selectedQty === null || selectedPrice === null) {
             alert('Pilih jumlah terlebih dahulu!');
             return;
@@ -212,10 +213,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Kurangi stok
         stocks[service] -= jumlah;
         saveStocks();
         updateStockDisplay();
+        document.getElementById('admin-stock-secret').value = stocks['SECRET TUMBAL'];
+        document.getElementById('admin-stock-stone').value = stocks['Evolved Enchant Stone'];
 
         const orderId = 'ORD' + Date.now();
         const customerPhone = document.getElementById('phone').value;
@@ -235,7 +237,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         };
 
-        // Tampilkan gateway pembayaran
         document.getElementById('paymentGateway').style.display = 'block';
         document.getElementById('totalAmount').textContent = harga.toLocaleString('id-ID');
         document.getElementById('orderId').textContent = orderId;
@@ -258,7 +259,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showQRIS() {
         const qrContainer = document.querySelector('#qrisSection .qr-code');
-        // Ganti dengan gambar QRIS Anda
         qrContainer.innerHTML = '<img src="qris.jpeg" alt="QRIS" style="max-width: 200px; height: auto;">';
     }
 
@@ -302,9 +302,8 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Konfirmasi pembayaran terkirim ke admin!');
             closeModal();
 
-            if (orderData.service === 'SECRET TUMBAL') {
-                document.getElementById('secretLinkModal').style.display = 'block';
-            }
+            // Tampilkan link (untuk semua produk)
+            showProductLink(orderData.service);
         }, 2000);
     };
 
@@ -326,18 +325,25 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Email error:', error));
     }
 
-    function resetForm() {
-        document.querySelector('.order-form').reset();
-        selectedPayment = '';
-        selectedQty = null;
-        selectedPrice = null;
-        document.querySelectorAll('.stone-option').forEach(el => el.classList.remove('selected'));
-        document.getElementById('qrisSection').style.display = 'none';
-        document.getElementById('ewalletSection').style.display = 'none';
-        document.getElementById('paymentGateway').style.display = 'none';
+    // ================== FUNGSI MENAMPILKAN LINK PRODUK ==================
+    function showProductLink(service) {
+        const url = productLinks[service] || 'https://example.com';
+        const modal = document.getElementById('secretLinkModal');
+        const linkElement = document.getElementById('secretLinkUrl');
+        const modalTitle = document.getElementById('modalLinkTitle');
+        
+        // Ubah judul sesuai produk (opsional)
+        if (service === 'SECRET TUMBAL') {
+            modalTitle.innerHTML = '🔗 Link Private Server';
+        } else {
+            modalTitle.innerHTML = '🔗 Link Evolved Enchant Stone';
+        }
+        linkElement.textContent = url;
+        
+        modal.style.display = 'block';
     }
 
-    // ================== MODAL LINK RAHASIA ==================
+    // ================== FUNGSI UNTUK MODAL LINK ==================
     window.closeSecretLinkModal = function() {
         document.getElementById('secretLinkModal').style.display = 'none';
     };
@@ -353,6 +359,30 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(() => showNotification('✅ Link berhasil disalin!'))
             .catch(() => showNotification('❌ Gagal menyalin link', true));
     };
+
+    // ================== ADMIN UPDATE STOK ==================
+    window.updateStock = function(productName, inputId) {
+        const newStock = parseInt(document.getElementById(inputId).value);
+        if (isNaN(newStock) || newStock < 0) {
+            alert('Masukkan angka valid');
+            return;
+        }
+        stocks[productName] = newStock;
+        saveStocks();
+        updateStockDisplay();
+        showNotification(`Stok ${productName} diubah menjadi ${newStock}`);
+    };
+
+    function resetForm() {
+        document.querySelector('.order-form').reset();
+        selectedPayment = '';
+        selectedQty = null;
+        selectedPrice = null;
+        document.querySelectorAll('.stone-option').forEach(el => el.classList.remove('selected'));
+        document.getElementById('qrisSection').style.display = 'none';
+        document.getElementById('ewalletSection').style.display = 'none';
+        document.getElementById('paymentGateway').style.display = 'none';
+    }
 
     // Tutup modal jika klik di luar
     window.onclick = function(event) {
