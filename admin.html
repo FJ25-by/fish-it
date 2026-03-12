@@ -3,103 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Yuji Store</title>
+    <title>Admin Panel - Yuji Store</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Tambahan style khusus admin */
+        .admin-container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .login-form {
+            text-align: center;
+        }
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .stock-form {
+            margin-top: 20px;
+        }
+        .stock-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+        .stock-item label {
+            display: inline-block;
+            width: 150px;
+        }
+        .stock-item input {
+            width: 80px;
+            padding: 8px;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+        }
+        .btn-admin {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-admin:hover {
+            background: #38a169;
+        }
+        .logout {
+            float: right;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .logout:hover {
+            background: #c53030;
+        }
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <div class="admin-container">
-        <h1>🔧 Admin Panel</h1>
-        <div id="loginSection">
-            <h2>Login</h2>
-            <input type="password" id="passwordInput" placeholder="Masukkan password">
-            <button onclick="login()">Masuk</button>
-            <p id="loginError" style="color:red; display:none;">Password salah!</p>
+    <div class="admin-container" id="adminContainer">
+        <h1 style="text-align:center;">🔧 Admin Panel</h1>
+        <div id="loginSection" class="login-form">
+            <h3>Silakan Login</h3>
+            <input type="password" id="password" placeholder="Masukkan password admin">
+            <button class="btn-admin" onclick="login()">Login</button>
+            <p style="color:#999; margin-top:10px;">Gunakan password: <strong>admin123</strong></p>
         </div>
-
-        <div id="adminPanel" style="display: none;">
-            <h2>Update Stok Produk</h2>
-            <div class="admin-stock">
-                <label>Secret Tumbal:</label>
-                <input type="number" id="admin-stock-secret" min="0">
-                <button onclick="updateStock('SECRET TUMBAL', 'admin-stock-secret')">Update</button>
-                <span>Stok saat ini: <span id="current-stock-secret">0</span></span>
+        <div id="stockSection" style="display:none;">
+            <button class="logout" onclick="logout()">Logout</button>
+            <h3>Update Stok Produk</h3>
+            <div class="stock-form">
+                <div class="stock-item">
+                    <label>SECRET TUMBAL:</label>
+                    <input type="number" id="admin-stock-secret" min="0" value="20">
+                    <button class="btn-admin" onclick="updateStock('SECRET TUMBAL', 'admin-stock-secret')">Update</button>
+                </div>
+                <div class="stock-item">
+                    <label>Evolved Enchant Stone:</label>
+                    <input type="number" id="admin-stock-stone" min="0" value="20">
+                    <button class="btn-admin" onclick="updateStock('Evolved Enchant Stone', 'admin-stock-stone')">Update</button>
+                </div>
             </div>
-            <div class="admin-stock">
-                <label>Evolved Enchant Stone:</label>
-                <input type="number" id="admin-stock-stone" min="0">
-                <button onclick="updateStock('Evolved Enchant Stone', 'admin-stock-stone')">Update</button>
-                <span>Stok saat ini: <span id="current-stock-stone">0</span></span>
+            <div class="back-link">
+                <a href="index.html" target="_blank">Kembali ke Toko</a>
             </div>
-            <button onclick="logout()" style="margin-top:20px; background:#e53e3e;">Logout</button>
         </div>
     </div>
 
     <script>
-        // Password hardcoded (ganti sesuai keinginan)
-        const ADMIN_PASSWORD = "admin123";
-
-        // Data stok (sama dengan di store)
-        let stocks = {
-            'SECRET TUMBAL': 20,
-            'Evolved Enchant Stone': 20
-        };
-
-        // Muat stok dari localStorage
-        function loadStocks() {
-            const saved = localStorage.getItem('productStocks');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    stocks = { ...stocks, ...parsed };
-                } catch (e) {}
-            }
-            // Tampilkan stok saat ini
-            document.getElementById('current-stock-secret').textContent = stocks['SECRET TUMBAL'];
-            document.getElementById('current-stock-stone').textContent = stocks['Evolved Enchant Stone'];
-            document.getElementById('admin-stock-secret').value = stocks['SECRET TUMBAL'];
-            document.getElementById('admin-stock-stone').value = stocks['Evolved Enchant Stone'];
+        // Cek apakah sudah login sebelumnya di session ini
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            showStockSection();
         }
 
-        // Simpan stok ke localStorage
-        function saveStocks() {
-            localStorage.setItem('productStocks', JSON.stringify(stocks));
-        }
-
-        // Fungsi login
         function login() {
-            const pwd = document.getElementById('passwordInput').value;
-            if (pwd === ADMIN_PASSWORD) {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                loadStocks(); // refresh data
+            const pwd = document.getElementById('password').value;
+            if (pwd === 'admin123') { // Ganti password sesuai keinginan
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                showStockSection();
             } else {
-                document.getElementById('loginError').style.display = 'block';
+                alert('Password salah!');
             }
         }
 
-        // Fungsi logout
         function logout() {
+            sessionStorage.removeItem('adminLoggedIn');
             document.getElementById('loginSection').style.display = 'block';
-            document.getElementById('adminPanel').style.display = 'none';
-            document.getElementById('passwordInput').value = '';
-            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('stockSection').style.display = 'none';
         }
 
-        // Fungsi update stok
+        function showStockSection() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('stockSection').style.display = 'block';
+            loadStocksForAdmin();
+        }
+
+        // Ambil stok dari localStorage dan tampilkan di input
+        function loadStocksForAdmin() {
+            const stocks = JSON.parse(localStorage.getItem('productStocks')) || {
+                'SECRET TUMBAL': 20,
+                'Evolved Enchant Stone': 20
+            };
+            document.getElementById('admin-stock-secret').value = stocks['SECRET TUMBAL'] || 20;
+            document.getElementById('admin-stock-stone').value = stocks['Evolved Enchant Stone'] || 20;
+        }
+
+        // Fungsi update stok (sama seperti di script.js)
         function updateStock(productName, inputId) {
             const newStock = parseInt(document.getElementById(inputId).value);
             if (isNaN(newStock) || newStock < 0) {
                 alert('Masukkan angka valid');
                 return;
             }
+            // Ambil stok saat ini dari localStorage
+            let stocks = JSON.parse(localStorage.getItem('productStocks')) || {
+                'SECRET TUMBAL': 20,
+                'Evolved Enchant Stone': 20
+            };
             stocks[productName] = newStock;
-            saveStocks();
-            loadStocks(); // perbarui tampilan
-            alert(`Stok ${productName} diubah menjadi ${newStock}`);
+            localStorage.setItem('productStocks', JSON.stringify(stocks));
+            alert(`Stok ${productName} berhasil diupdate menjadi ${newStock}`);
         }
 
-        // Cek apakah sudah login sebelumnya? (gunakan sessionStorage agar tidak tetap login setelah tab ditutup)
-        // Kita sederhanakan, tidak perlu.
+        // Muat stok saat halaman admin dibuka
+        loadStocksForAdmin();
     </script>
 </body>
 </html>
