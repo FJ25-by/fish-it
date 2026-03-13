@@ -1,7 +1,5 @@
 // ================== KONFIGURASI ==================
-// Ganti dengan RAW URL file stocks.json Anda
 const STOCKS_RAW_URL = 'https://raw.githubusercontent.com/FJ25-by/fish-it/main/stock.json?t=' + Date.now();
-
 // Data link produk
 const productLinks = {
     'SECRET TUMBAL': 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server',
@@ -66,7 +64,13 @@ initBattery();
 // ================== FUNGSI STOK DARI GITHUB ==================
 async function loadStocks() {
     try {
-        const response = await fetch(STOCKS_RAW_URL);
+        const response = await fetch(STOCKS_RAW_URL, {
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            }
+        });
         if (response.ok) {
             stocks = await response.json();
         } else {
