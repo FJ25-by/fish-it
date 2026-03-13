@@ -1,25 +1,29 @@
 // ================== KONFIGURASI ==================
 const STOCKS_RAW_URL = 'https://raw.githubusercontent.com/FJ25-by/fish-it/main/stock.json?t=' + Date.now();
 
+// Konfigurasi GitHub (GANTI DENGAN TOKEN BARU ANDA! Yang lama sudah terekspos)
+const GITHUB_TOKEN = 'ghp_xxx'; // <--- GANTI DENGAN TOKEN BARU (scope repo)
+const REPO_OWNER = 'FJ25-by';
+const REPO_NAME = 'fish-it';
+const FILE_PATH = 'stock.json';
+const BRANCH = 'main';
+
 // Data link produk
 const productLinks = {
     'SECRET TUMBAL': 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server',
     'Evolved Enchant Stone': 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server'
 };
 
-// State stok
+// State stok dan pesanan
 let stocks = {
     'SECRET TUMBAL': 20,
     'Evolved Enchant Stone': 20
 };
-
-// ================== KONFIGURASI GITHUB (TIDAK AMAN UNTUK PRODUCTION) ==================
-// GANTI DENGAN TOKEN BARU ANDA! (buat di GitHub dengan scope repo)
-const GITHUB_TOKEN = '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'; // <--- GANTI INI
-const REPO_OWNER = 'FJ25-by';
-const REPO_NAME = 'fish-it';
-const FILE_PATH = 'stock.json';
-const BRANCH = 'main';
+let selectedPayment = '';
+let selectedQty = null;      // jumlah yang dipilih
+let selectedPrice = null;    // harga total
+let orderData = {};
+let countdownInterval;
 
 // ================== FUNGSI STATUS BAR ==================
 emailjs.init('QKFRgvCcL8DVQSzbw'); // Public key EmailJS Anda
@@ -105,9 +109,9 @@ function updateStockDisplay() {
 
 loadStocks();
 
-// ================== FUNGSI UPDATE STOK KE GITHUB ==================
+// ================== FUNGSI GITHUB UPDATE ==================
 async function updateGithubStock(newStocks) {
-    // Ambil SHA file terbaru
+    // 1. Dapatkan SHA file saat ini
     const getRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}?ref=${BRANCH}`, {
         headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
     });
@@ -118,10 +122,10 @@ async function updateGithubStock(newStocks) {
     const data = await getRes.json();
     const sha = data.sha;
 
-    // Encode konten baru ke base64
+    // 2. Encode konten baru ke base64
     const content = btoa(JSON.stringify(newStocks, null, 2));
 
-    // Kirim update
+    // 3. Kirim update
     const putRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
         method: 'PUT',
         headers: {
@@ -142,13 +146,7 @@ async function updateGithubStock(newStocks) {
     return putRes.json();
 }
 
-// ================== VARIABEL MODAL ==================
-let selectedPayment = '';
-let selectedQty = null;
-let selectedPrice = null;
-let orderData = {};
-let countdownInterval;
-
+// ================== FUNGSI MODAL ==================
 function showNotification(message, isError = false) {
     const notif = document.createElement('div');
     notif.className = 'notification ' + (isError ? 'error' : '');
@@ -239,7 +237,7 @@ window.processOrder = function(event) {
         return;
     }
 
-    // Stok akan dikurangi setelah konfirmasi pembayaran
+    // Simpan data order (stok belum dikurangi)
     const orderId = 'ORD' + Date.now();
     const customerPhone = document.getElementById('phone').value;
     const details = document.getElementById('details').value;
@@ -251,10 +249,11 @@ window.processOrder = function(event) {
         amount: selectedPrice.toLocaleString('id-ID'),
         paymentMethod: selectedPayment.toUpperCase(),
         details: details ? details + ` (Jumlah: ${selectedQty} batu)` : `Jumlah: ${selectedQty} batu`,
-        timestamp: new Date().toLocaleString('id-ID'),
-        qty: selectedQty // tambahkan untuk memudahkan
+        qty: selectedQty,  // simpan jumlah untuk digunakan nanti
+        timestamp: new Date().toLocaleString('id-ID')
     };
 
+    // Tampilkan payment gateway
     document.getElementById('paymentGateway').style.display = 'block';
     document.getElementById('totalAmount').textContent = selectedPrice.toLocaleString('id-ID');
     document.getElementById('orderId').textContent = orderId;
@@ -304,32 +303,32 @@ window.confirmPayment = async function() {
         // Kirim email notifikasi
         sendEmail(orderData);
 
-        // Kurangi stok di objek stocks
+        // Kurangi stok di memori
         const service = orderData.service;
-        const qty = orderData.qty;
+        const qty = orderData.qty; // kita simpan qty di orderData
+        stocks[service] -= qty;
 
-        if (stocks[service] >= qty) {
-            stocks[service] -= qty;
+        // Update ke GitHub
+        await updateGithubStock(stocks);
 
-            // Update ke GitHub
-            await updateGithubStock(stocks);
-            showNotification(`Stok ${service} berkurang ${qty}. Stok sekarang: ${stocks[service]}`);
-
-            // Tampilkan link produk
-            showProductLink(service);
-        } else {
-            showNotification('Stok tidak cukup!', true);
-        }
-
-    } catch (error) {
-        console.error('Error updating stock:', error);
-        showNotification('Gagal update stok: ' + error.message, true);
-    } finally {
+        showNotification(`✅ Stok ${service} berkurang ${qty}. Pesanan diproses.`);
+        
+        // Tutup modal dan tampilkan link
         setTimeout(() => {
             btn.querySelector('.loading').style.display = 'none';
             btn.disabled = false;
             closeModal();
-        }, 2000);
+            showProductLink(service);
+        }, 1500);
+    } catch (error) {
+        console.error('Gagal update stok:', error);
+        showNotification('❌ Gagal update stok: ' + error.message, true);
+        
+        // Kembalikan stok di memori karena gagal
+        stocks[orderData.service] += orderData.qty;
+        
+        btn.querySelector('.loading').style.display = 'none';
+        btn.disabled = false;
     }
 };
 
