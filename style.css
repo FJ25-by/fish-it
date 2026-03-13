@@ -42,17 +42,17 @@ body {
     font-size: 1.1rem;
 }
 
-/* Status Bar */
+/* Status Bar lebih kecil */
 .status-bar {
     position: absolute;
-    top: 15px;
+    top: 8px;
     left: 0;
     right: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 0 20px;
+    padding: 0 12px;
     pointer-events: none;
     z-index: 2;
 }
@@ -90,10 +90,10 @@ body {
 
 .status-item {
     background: rgba(0, 0, 0, 0.3);
-    padding: 5px 10px;
-    border-radius: 15px;
+    padding: 3px 8px;
+    border-radius: 10px;
     color: white;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -102,23 +102,23 @@ body {
 .status-center .status-item {
     flex-direction: column;
     text-align: center;
-    gap: 2px;
-    padding: 8px 12px;
+    gap: 0;
+    padding: 4px 8px;
 }
 
 #time {
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 #date {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     opacity: 0.9;
 }
 
 .battery-icon {
-    width: 20px;
-    height: 10px;
+    width: 14px;
+    height: 7px;
     border: 1px solid white;
     border-radius: 2px;
     position: relative;
@@ -128,10 +128,10 @@ body {
 .battery-icon::after {
     content: '';
     position: absolute;
-    right: -3px;
-    top: 2px;
+    right: -2px;
+    top: 1px;
     width: 1px;
-    height: 4px;
+    height: 3px;
     background: white;
     border-radius: 0 1px 1px 0;
 }
@@ -144,7 +144,7 @@ body {
 }
 
 .charging-icon {
-    font-size: 0.7rem;
+    font-size: 0.5rem;
     margin-left: 3px;
 }
 
@@ -603,12 +603,12 @@ body {
     .header { padding: 50px 20px 30px; }
     .header h1 { font-size: 2rem; margin-top: 20px; }
     .services-grid { grid-template-columns: 1fr; gap: 20px; }
-    .status-bar { top: 15px; padding: 0 15px; }
-    .status-item { font-size: 0.8rem; padding: 4px 8px; }
-    .status-center .status-item { padding: 6px 10px; }
-    #time { font-size: 0.9rem; }
-    #date { font-size: 0.7rem; }
-    .battery-icon { width: 18px; height: 9px; }
+    .status-bar { top: 10px; padding: 0 10px; }
+    .status-item { font-size: 0.7rem; padding: 2px 6px; }
+    .status-center .status-item { padding: 3px 6px; }
+    #time { font-size: 0.75rem; }
+    #date { font-size: 0.55rem; }
+    .battery-icon { width: 12px; height: 6px; }
     .contact-info { flex-direction: column; gap: 15px; }
     .stone-options-grid { grid-template-columns: repeat(2, 1fr); }
 }
