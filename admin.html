@@ -6,82 +6,37 @@
     <title>Admin Panel - Yuji Store</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .admin-container {
-            max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .login-form {
-            text-align: center;
-        }
-        .login-form input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-        }
-        .stock-form {
-            margin-top: 20px;
-        }
-        .stock-item {
-            margin: 15px 0;
-            padding: 15px;
-            background: #f7fafc;
-            border-radius: 8px;
-        }
-        .stock-item label {
-            display: inline-block;
-            width: 150px;
-        }
-        .stock-item input {
-            width: 80px;
-            padding: 8px;
-            border: 2px solid #e2e8f0;
-            border-radius: 5px;
-        }
-        .btn-admin {
-            background: #48bb78;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .btn-admin:hover {
-            background: #38a169;
-        }
-        .logout {
-            float: right;
-            background: #e53e3e;
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .logout:hover {
-            background: #c53030;
-        }
-        .back-link {
-            display: block;
-            margin-top: 20px;
-            text-align: center;
-        }
+        .admin-container { max-width: 600px; margin: 50px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .login-form { text-align: center; }
+        .login-form input, .login-form textarea { width: 100%; padding: 10px; margin: 10px 0; border: 2px solid #e2e8f0; border-radius: 8px; }
+        .stock-item { margin: 15px 0; padding: 15px; background: #f7fafc; border-radius: 8px; }
+        .stock-item label { display: inline-block; width: 150px; }
+        .stock-item input { width: 80px; padding: 8px; border: 2px solid #e2e8f0; border-radius: 5px; }
+        .btn-admin { background: #48bb78; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1rem; }
+        .btn-admin:hover { background: #38a169; }
+        .logout { float: right; background: #e53e3e; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
+        .info { background: #e6f7ff; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 0.9rem; }
     </style>
 </head>
 <body>
-    <div class="admin-container" id="adminContainer">
+    <div class="admin-container">
         <h1 style="text-align:center;">🔧 Admin Panel</h1>
+        
+        <!-- Bagian Login -->
         <div id="loginSection" class="login-form">
-            <h3>Silakan Login</h3>
-            <input type="password" id="password" placeholder="Masukkan password admin">
-            <button class="btn-admin" onclick="login()">Login</button>
+            <h3>Masuk dengan GitHub Token</h3>
+            <p class="info">
+                Buat token di GitHub (Settings → Developer settings → Personal access tokens → Tokens (classic)) dengan scope <strong>repo</strong> (atau public_repo jika repo publik).
+            </p>
+            <input type="text" id="githubToken" placeholder="GitHub Token" required>
+            <input type="text" id="repoOwner" placeholder="Owner (username)" value="username" required>
+            <input type="text" id="repoName" placeholder="Nama Repository" value="repo" required>
+            <input type="text" id="filePath" placeholder="Path file (misal: data/stocks.json)" value="data/stocks.json" required>
+            <input type="text" id="branch" placeholder="Branch (misal: main)" value="main" required>
+            <button class="btn-admin" onclick="loginWithToken()">Login & Muat Stok</button>
         </div>
+
+        <!-- Bagian Kelola Stok (setelah login) -->
         <div id="stockSection" style="display:none;">
             <button class="logout" onclick="logout()">Logout</button>
             <h3>Update Stok Produk</h3>
@@ -89,14 +44,15 @@
                 <div class="stock-item">
                     <label>SECRET TUMBAL:</label>
                     <input type="number" id="admin-stock-secret" min="0" value="20">
-                    <button class="btn-admin" onclick="updateStock('SECRET TUMBAL', 'admin-stock-secret')">Update</button>
+                    <button class="btn-admin" onclick="updateStock('SECRET TUMBAL')">Update</button>
                 </div>
                 <div class="stock-item">
                     <label>Evolved Enchant Stone:</label>
                     <input type="number" id="admin-stock-stone" min="0" value="20">
-                    <button class="btn-admin" onclick="updateStock('Evolved Enchant Stone', 'admin-stock-stone')">Update</button>
+                    <button class="btn-admin" onclick="updateStock('Evolved Enchant Stone')">Update</button>
                 </div>
             </div>
+            <div id="statusMessage" style="margin-top:20px; text-align:center;"></div>
             <div class="back-link">
                 <a href="index.html" target="_blank">Kembali ke Toko</a>
             </div>
@@ -104,62 +60,108 @@
     </div>
 
     <script>
-        // Cek apakah sudah login sebelumnya di session ini
-        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
-            showStockSection();
-        }
+        // Variabel konfigurasi
+        let config = {};
 
-        function login() {
-            const pwd = document.getElementById('password').value;
-            if (pwd === 'yuji25') { // Ganti password sesuai keinginan
-                sessionStorage.setItem('adminLoggedIn', 'true');
-                showStockSection();
-            } else {
-                alert('Password salah!');
+        function loginWithToken() {
+            const token = document.getElementById('githubToken').value.trim();
+            const owner = document.getElementById('repoOwner').value.trim();
+            const repo = document.getElementById('repoName').value.trim();
+            const path = document.getElementById('filePath').value.trim();
+            const branch = document.getElementById('branch').value.trim();
+
+            if (!token || !owner || !repo || !path || !branch) {
+                alert('Semua field harus diisi!');
+                return;
             }
+
+            config = { token, owner, repo, path, branch };
+
+            // Ambil file dari GitHub untuk mendapatkan konten dan SHA
+            fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`, {
+                headers: { 'Authorization': `token ${token}` }
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Token tidak valid atau file tidak ditemukan');
+                return res.json();
+            })
+            .then(data => {
+                // Decode konten dari base64
+                const content = atob(data.content);
+                const stocks = JSON.parse(content);
+                document.getElementById('admin-stock-secret').value = stocks['SECRET TUMBAL'] || 20;
+                document.getElementById('admin-stock-stone').value = stocks['Evolved Enchant Stone'] || 20;
+
+                // Simpan SHA untuk update
+                config.sha = data.sha;
+
+                // Tampilkan panel stok
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('stockSection').style.display = 'block';
+                document.getElementById('statusMessage').innerHTML = '';
+            })
+            .catch(err => {
+                alert('Gagal login: ' + err.message);
+            });
         }
 
         function logout() {
-            sessionStorage.removeItem('adminLoggedIn');
+            config = {};
             document.getElementById('loginSection').style.display = 'block';
             document.getElementById('stockSection').style.display = 'none';
         }
 
-        function showStockSection() {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('stockSection').style.display = 'block';
-            loadStocksForAdmin();
-        }
+        function updateStock(productName) {
+            if (!config.sha) {
+                alert('Silakan login ulang');
+                return;
+            }
 
-        // Ambil stok dari localStorage dan tampilkan di input
-        function loadStocksForAdmin() {
-            const stocks = JSON.parse(localStorage.getItem('productStocks')) || {
-                'SECRET TUMBAL': 20,
-                'Evolved Enchant Stone': 20
-            };
-            document.getElementById('admin-stock-secret').value = stocks['SECRET TUMBAL'] || 20;
-            document.getElementById('admin-stock-stone').value = stocks['Evolved Enchant Stone'] || 20;
-        }
+            // Ambil nilai dari kedua input
+            const newSecret = parseInt(document.getElementById('admin-stock-secret').value);
+            const newStone = parseInt(document.getElementById('admin-stock-stone').value);
 
-        // Fungsi update stok (sama seperti di script.js)
-        function updateStock(productName, inputId) {
-            const newStock = parseInt(document.getElementById(inputId).value);
-            if (isNaN(newStock) || newStock < 0) {
+            if (isNaN(newSecret) || newSecret < 0 || isNaN(newStone) || newStone < 0) {
                 alert('Masukkan angka valid');
                 return;
             }
-            // Ambil stok saat ini dari localStorage
-            let stocks = JSON.parse(localStorage.getItem('productStocks')) || {
-                'SECRET TUMBAL': 20,
-                'Evolved Enchant Stone': 20
-            };
-            stocks[productName] = newStock;
-            localStorage.setItem('productStocks', JSON.stringify(stocks));
-            alert(`Stok ${productName} berhasil diupdate menjadi ${newStock}`);
-        }
 
-        // Muat stok saat halaman admin dibuka
-        loadStocksForAdmin();
+            const updatedStocks = {
+                'SECRET TUMBAL': newSecret,
+                'Evolved Enchant Stone': newStone
+            };
+
+            // Encode ke base64
+            const content = btoa(JSON.stringify(updatedStocks, null, 2));
+
+            // Kirim PUT request ke GitHub API
+            fetch(`https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.path}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${config.token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: `Update stok via admin (${productName})`,
+                    content: content,
+                    sha: config.sha,
+                    branch: config.branch
+                })
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Gagal update');
+                return res.json();
+            })
+            .then(data => {
+                // Update SHA untuk commit berikutnya
+                config.sha = data.content.sha;
+                document.getElementById('statusMessage').innerHTML = '<span style="color:green;">✅ Stok berhasil diupdate!</span>';
+                setTimeout(() => document.getElementById('statusMessage').innerHTML = '', 3000);
+            })
+            .catch(err => {
+                document.getElementById('statusMessage').innerHTML = `<span style="color:red;">❌ Error: ${err.message}</span>`;
+            });
+        }
     </script>
 </body>
 </html>
