@@ -25,12 +25,12 @@
         <div id="loginSection" class="login-form">
             <h3>Masuk dengan GitHub Token</h3>
             <div class="info">
-                <strong>⚠️ Keamanan:</strong> Jangan bagikan token Anda. Buat token baru di GitHub (Settings → Developer settings → Personal access tokens → Tokens (classic)) dengan scope <strong>repo</strong> (atau public_repo). Token hanya disimpan di browser selama sesi ini.
+                <strong>⚠️ KHUSUS ADMIN</strong>
             </div>
             <input type="text" id="githubToken" placeholder="GitHub Token" required>
-            <input type="text" id="repoOwner" placeholder="Owner (username)" value="FJ25-by" required>
-            <input type="text" id="repoName" placeholder="Nama Repository" value="fish-it" required>
-            <input type="text" id="filePath" placeholder="Path file (misal: stock.json)" value="stock.json" required>
+            <input type="text" id="repoOwner" placeholder="Owner (username)" required>
+            <input type="text" id="repoName" placeholder="Nama Repository" required>
+            <input type="text" id="filePath" placeholder="Path file (misal: stock.json)" required>
             <input type="text" id="branch" placeholder="Branch (misal: main)" value="main" required>
             <button class="btn-admin" onclick="loginWithToken()">Login & Muat Stok</button>
         </div>
