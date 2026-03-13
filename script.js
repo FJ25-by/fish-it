@@ -6,6 +6,36 @@ const productLinks = {
     'Evolved Enchant Stone': 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server'
 };
 
+async function updateGithubStock(newStocks) {
+    // Ambil SHA file terbaru
+    const getRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}?ref=${BRANCH}`, {
+        headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+    });
+    if (!getRes.ok) throw new Error('Gagal mengambil file dari GitHub');
+    const data = await getRes.json();
+    const sha = data.sha;
+
+    // Encode konten baru ke base64
+    const content = btoa(JSON.stringify(newStocks, null, 2));
+
+    // Kirim update
+    const putRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `token ${GITHUB_TOKEN}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: `Update stok otomatis setelah order`,
+            content: content,
+            sha: sha,
+            branch: BRANCH
+        })
+    });
+    if (!putRes.ok) throw new Error('Gagal mengupdate file di GitHub');
+    return putRes.json();
+}
+
 // State stok
 let stocks = {
     'SECRET TUMBAL': 20,
