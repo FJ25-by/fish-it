@@ -2,7 +2,7 @@
 const STOCKS_RAW_URL = 'https://raw.githubusercontent.com/FJ25-by/fish-it/main/stock.json?t=' + Date.now();
 
 // Konfigurasi GitHub (GANTI DENGAN TOKEN BARU ANDA! Yang lama sudah terekspos)
-const GITHUB_TOKEN = 'ghp_xxx'; // <--- GANTI DENGAN TOKEN BARU (scope repo)
+const GITHUB_TOKEN = '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'; // <--- GANTI DENGAN TOKEN BARU (scope repo)
 const REPO_OWNER = 'FJ25-by';
 const REPO_NAME = 'fish-it';
 const FILE_PATH = 'stock.json';
