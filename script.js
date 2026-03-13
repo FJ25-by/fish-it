@@ -64,13 +64,7 @@ initBattery();
 // ================== FUNGSI STOK DARI GITHUB ==================
 async function loadStocks() {
     try {
-        const response = await fetch(STOCKS_RAW_URL, {
-            headers: {
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache',
-                'Expires': '0'
-            }
-        });
+        const response = await fetch(STOCKS_RAW_URL);
         if (response.ok) {
             stocks = await response.json();
         } else {
