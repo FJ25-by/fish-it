@@ -1,40 +1,11 @@
 // ================== KONFIGURASI ==================
 const STOCKS_RAW_URL = 'https://raw.githubusercontent.com/FJ25-by/fish-it/main/stock.json?t=' + Date.now();
+
 // Data link produk
 const productLinks = {
     'SECRET TUMBAL': 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server',
     'Evolved Enchant Stone': 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server'
 };
-
-async function updateGithubStock(newStocks) {
-    // Ambil SHA file terbaru
-    const getRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}?ref=${BRANCH}`, {
-        headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
-    });
-    if (!getRes.ok) throw new Error('Gagal mengambil file dari GitHub');
-    const data = await getRes.json();
-    const sha = data.sha;
-
-    // Encode konten baru ke base64
-    const content = btoa(JSON.stringify(newStocks, null, 2));
-
-    // Kirim update
-    const putRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `token ${GITHUB_TOKEN}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            message: `Update stok otomatis setelah order`,
-            content: content,
-            sha: sha,
-            branch: BRANCH
-        })
-    });
-    if (!putRes.ok) throw new Error('Gagal mengupdate file di GitHub');
-    return putRes.json();
-}
 
 // State stok
 let stocks = {
@@ -43,8 +14,8 @@ let stocks = {
 };
 
 // ================== KONFIGURASI GITHUB (TIDAK AMAN UNTUK PRODUCTION) ==================
-// Ganti dengan token Anda (buat token baru dengan scope repo)
-const GITHUB_TOKEN = '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'; // GANTI DENGAN TOKEN BARU ANDA
+// GANTI DENGAN TOKEN BARU ANDA! (buat di GitHub dengan scope repo)
+const GITHUB_TOKEN = 'ghp_xxx'; // <--- GANTI INI
 const REPO_OWNER = 'FJ25-by';
 const REPO_NAME = 'fish-it';
 const FILE_PATH = 'stock.json';
@@ -65,17 +36,6 @@ function updateTime() {
 }
 setInterval(updateTime, 1000);
 updateTime();
-
-async function fetchIP() {
-    try {
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-        document.getElementById('ipAddress').textContent = data.ip;
-    } catch {
-        document.getElementById('ipAddress').textContent = '103.175.224.44';
-    }
-}
-fetchIP();
 
 async function initBattery() {
     try {
@@ -102,7 +62,13 @@ initBattery();
 // ================== FUNGSI STOK DARI GITHUB ==================
 async function loadStocks() {
     try {
-        const response = await fetch(STOCKS_RAW_URL);
+        const response = await fetch(STOCKS_RAW_URL, {
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            }
+        });
         if (response.ok) {
             stocks = await response.json();
         } else {
@@ -138,6 +104,43 @@ function updateStockDisplay() {
 }
 
 loadStocks();
+
+// ================== FUNGSI UPDATE STOK KE GITHUB ==================
+async function updateGithubStock(newStocks) {
+    // Ambil SHA file terbaru
+    const getRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}?ref=${BRANCH}`, {
+        headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+    });
+    if (!getRes.ok) {
+        const error = await getRes.text();
+        throw new Error(`Gagal mengambil file: ${getRes.status} ${error}`);
+    }
+    const data = await getRes.json();
+    const sha = data.sha;
+
+    // Encode konten baru ke base64
+    const content = btoa(JSON.stringify(newStocks, null, 2));
+
+    // Kirim update
+    const putRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `token ${GITHUB_TOKEN}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: `Update stok otomatis setelah order`,
+            content: content,
+            sha: sha,
+            branch: BRANCH
+        })
+    });
+    if (!putRes.ok) {
+        const error = await putRes.text();
+        throw new Error(`Gagal update: ${putRes.status} ${error}`);
+    }
+    return putRes.json();
+}
 
 // ================== VARIABEL MODAL ==================
 let selectedPayment = '';
@@ -236,7 +239,7 @@ window.processOrder = function(event) {
         return;
     }
 
-    // Stok tidak dikurangi otomatis (admin akan update manual)
+    // Stok akan dikurangi setelah konfirmasi pembayaran
     const orderId = 'ORD' + Date.now();
     const customerPhone = document.getElementById('phone').value;
     const details = document.getElementById('details').value;
@@ -248,7 +251,8 @@ window.processOrder = function(event) {
         amount: selectedPrice.toLocaleString('id-ID'),
         paymentMethod: selectedPayment.toUpperCase(),
         details: details ? details + ` (Jumlah: ${selectedQty} batu)` : `Jumlah: ${selectedQty} batu`,
-        timestamp: new Date().toLocaleString('id-ID')
+        timestamp: new Date().toLocaleString('id-ID'),
+        qty: selectedQty // tambahkan untuk memudahkan
     };
 
     document.getElementById('paymentGateway').style.display = 'block';
@@ -296,34 +300,37 @@ window.confirmPayment = async function() {
     btn.querySelector('.loading').style.display = 'inline-block';
     btn.disabled = true;
 
-    // Kirim email notifikasi
-    sendEmail(orderData);
+    try {
+        // Kirim email notifikasi
+        sendEmail(orderData);
 
-    // Kurangi stok di objek stocks
-    const service = orderData.service;
-    // Ambil jumlah dari orderData.details (misal: "Jumlah: 5 batu")
-    const match = orderData.details.match(/Jumlah: (\d+)/);
-    if (match) {
-        const qty = parseInt(match[1]);
-        stocks[service] -= qty;
+        // Kurangi stok di objek stocks
+        const service = orderData.service;
+        const qty = orderData.qty;
 
-        // Update ke GitHub
-        try {
+        if (stocks[service] >= qty) {
+            stocks[service] -= qty;
+
+            // Update ke GitHub
             await updateGithubStock(stocks);
-            showNotification(`Stok ${service} berkurang ${qty}`);
-        } catch (error) {
-            showNotification('Gagal update stok: ' + error.message, true);
-            // Kembalikan stok di memori? Atau biarkan saja
-        }
-    }
+            showNotification(`Stok ${service} berkurang ${qty}. Stok sekarang: ${stocks[service]}`);
 
-    setTimeout(() => {
-        btn.querySelector('.loading').style.display = 'none';
-        btn.disabled = false;
-        showNotification('Konfirmasi terkirim!');
-        closeModal();
-        showProductLink(orderData.service);
-    }, 2000);
+            // Tampilkan link produk
+            showProductLink(service);
+        } else {
+            showNotification('Stok tidak cukup!', true);
+        }
+
+    } catch (error) {
+        console.error('Error updating stock:', error);
+        showNotification('Gagal update stok: ' + error.message, true);
+    } finally {
+        setTimeout(() => {
+            btn.querySelector('.loading').style.display = 'none';
+            btn.disabled = false;
+            closeModal();
+        }, 2000);
+    }
 };
 
 function sendEmail(order) {
