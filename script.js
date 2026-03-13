@@ -15,7 +15,7 @@ let stocks = {
 
 // ================== KONFIGURASI GITHUB (TIDAK AMAN UNTUK PRODUCTION) ==================
 // GANTI DENGAN TOKEN BARU ANDA! (buat di GitHub dengan scope repo)
-const GITHUB_TOKEN = 'ghp_xxx'; // <--- GANTI INI
+const GITHUB_TOKEN = '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'; // <--- GANTI INI
 const REPO_OWNER = 'FJ25-by';
 const REPO_NAME = 'fish-it';
 const FILE_PATH = 'stock.json';
