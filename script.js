@@ -12,6 +12,14 @@ let stocks = {
     'Evolved Enchant Stone': 20
 };
 
+// ================== KONFIGURASI GITHUB (TIDAK AMAN UNTUK PRODUCTION) ==================
+// Ganti dengan token Anda (buat token baru dengan scope repo)
+const GITHUB_TOKEN = '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'; // GANTI DENGAN TOKEN BARU ANDA
+const REPO_OWNER = 'FJ25-by';
+const REPO_NAME = 'fish-it';
+const FILE_PATH = 'stock.json';
+const BRANCH = 'main';
+
 // ================== FUNGSI STATUS BAR ==================
 emailjs.init('QKFRgvCcL8DVQSzbw'); // Public key EmailJS Anda
 
