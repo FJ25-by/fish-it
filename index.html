@@ -16,9 +16,7 @@
             <div class="status-bar">
                 <div class="status-left">
                     <div class="status-item">
-                        <div class="battery-icon">
-                            <div class="battery-fill" id="batteryFill"></div>
-                        </div>
+                        <div class="battery-icon"><div class="battery-fill" id="batteryFill"></div></div>
                         <span id="batteryLevel">100%</span>
                         <span class="charging-icon" id="chargingIcon">⚡</span>
                     </div>
@@ -30,23 +28,18 @@
                     </div>
                 </div>
                 <div class="status-right">
-                    <div class="status-item">
-                        <span id="ipAddress">Loading...</span>
-                    </div>
+                    <div class="status-item"><span id="ipAddress">Loading...</span></div>
                 </div>
             </div>
         </div>
 
         <div class="services-grid">
-            <!-- Produk SECRET TUMBAL -->
             <div class="service-card" id="product-secret">
                 <h3><span class="icon">🐟</span>SECRET TUMBAL</h3>
                 <p>Produk spesial dengan harga spesial. Dapatkan link Private Server setelah pembayaran.</p>
                 <div class="price">Rp 400 / tb</div>
                 <button class="btn" onclick="openModal('SECRET TUMBAL')">Pesan Sekarang (STOK: <span id="stock-secret">20</span>)</button>
             </div>
-
-            <!-- Produk Evolved Enchant Stone -->
             <div class="service-card" id="product-stone">
                 <h3><span class="icon">🔮</span>Evolved Enchant Stone</h3>
                 <p>Batu enchant untuk meningkatkan pancinganmu. Dapatkan link Private Server setelah pembayaran.</p>
@@ -58,46 +51,26 @@
         <div class="payment-info">
             <h2>💳 Metode Pembayaran</h2>
             <div class="payment-methods">
-                <div class="payment-method">
-                    <strong>QRIS</strong>
-                    <span>Scan & Pay</span>
-                </div>
-                <div class="payment-method">
-                    <strong>DANA</strong>
-                    <span>085803146015</span>
-                </div>
-                <div class="payment-method">
-                    <strong>GoPay</strong>
-                    <span>085803146015</span>
-                </div>
+                <div class="payment-method"><strong>QRIS</strong><span>Scan & Pay</span></div>
+                <div class="payment-method"><strong>DANA</strong><span>085803146015</span></div>
+                <div class="payment-method"><strong>GoPay</strong><span>085803146015</span></div>
             </div>
         </div>
 
         <div class="footer">
             <p>✨ Proses otomatis 24/7 | Garansi uang kembali | Support pelanggan terbaik</p>
             <div class="contact-info">
-                <div class="contact-item">
-                    <span>📧</span>
-                    <span>rokitprek@gmail.com</span>
-                </div>
-                <div class="contact-item">
-                    <span>📱</span>
-                    <span>+62 858-0314-6015</span>
-                </div>
-                <div class="contact-item">
-                    <span>💬</span>
-                    <span>WhatsApp: +62 858-0314-6015</span>
-                </div>
+                <div class="contact-item"><span>📧</span><span>rokitprek@gmail.com</span></div>
+                <div class="contact-item"><span>📱</span><span>+62 858-0314-6015</span></div>
+                <div class="contact-item"><span>💬</span><span>WhatsApp: +62 858-0314-6015</span></div>
             </div>
         </div>
     </div>
 
-    <!-- Tombol menuju halaman Admin -->
     <a href="admin.html" class="admin-link">🔧 Admin</a>
 
     <!-- Modal Pemesanan -->
     <div id="orderModal" class="modal">
-        <!-- ... konten modal (sama seperti sebelumnya) ... -->
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Formulir Pemesanan</h2>
@@ -123,18 +96,9 @@
                 <div class="payment-section">
                     <h3>Pilih Metode Pembayaran:</h3>
                     <div class="payment-methods">
-                        <div class="payment-method" onclick="selectPayment('qris')">
-                            <strong>QRIS</strong>
-                            <span>Scan & Pay</span>
-                        </div>
-                        <div class="payment-method" onclick="selectPayment('dana')">
-                            <strong>DANA</strong>
-                            <span>085803146015</span>
-                        </div>
-                        <div class="payment-method" onclick="selectPayment('gopay')">
-                            <strong>GoPay</strong>
-                            <span>085803146015</span>
-                        </div>
+                        <div class="payment-method" onclick="selectPayment('qris')"><strong>QRIS</strong><span>Scan & Pay</span></div>
+                        <div class="payment-method" onclick="selectPayment('dana')"><strong>DANA</strong><span>085803146015</span></div>
+                        <div class="payment-method" onclick="selectPayment('gopay')"><strong>GoPay</strong><span>085803146015</span></div>
                     </div>
                 </div>
 
@@ -144,57 +108,24 @@
             <!-- Payment Gateway Section -->
             <div id="paymentGateway" class="payment-gateway">
                 <h3>💳 Pembayaran</h3>
-                <div class="amount-display">
-                    Total: Rp <span id="totalAmount">0</span>
-                </div>
-                <div class="timer">
-                    ⏰ Selesaikan pembayaran dalam: <span id="countdown">15:00</span>
-                </div>
+                <div class="amount-display">Total: Rp <span id="totalAmount">0</span></div>
+                <div class="timer">⏰ Selesaikan pembayaran dalam: <span id="countdown">15:00</span></div>
                 
                 <div id="qrisSection" style="display: none;">
-                    <div class="qr-code">
-                        <!-- QRIS image -->
-                    </div>
-                    <div class="payment-instructions">
-                        <h4>Cara Pembayaran QRIS:</h4>
-                        <ol>
-                            <li>Buka aplikasi e-wallet atau mobile banking</li>
-                            <li>Pilih menu "Scan QR" atau "QRIS"</li>
-                            <li>Scan QR code di atas</li>
-                            <li>Masukkan nominal sesuai dengan total di atas</li>
-                            <li>Konfirmasi pembayaran</li>
-                        </ol>
-                    </div>
+                    <div class="qr-code"><img src="qris.jpeg" alt="QRIS" style="max-width:200px;"></div>
+                    <div class="payment-instructions"><h4>Cara Pembayaran QRIS:</h4><ol><li>Buka aplikasi e-wallet atau mobile banking</li><li>Pilih menu "Scan QR"</li><li>Scan QR code di atas</li><li>Masukkan nominal sesuai total</li><li>Konfirmasi pembayaran</li></ol></div>
                 </div>
 
                 <div id="ewalletSection" style="display: none;">
                     <div style="text-align: center; margin: 20px 0;">
-                        <div style="font-size: 1.2rem; margin-bottom: 10px;">
-                            Kirim ke: <strong id="walletNumber">085803146015</strong>
-                            <button class="copy-btn" onclick="copyToClipboard('085803146015')">Copy</button>
-                        </div>
-                        <div style="font-size: 1rem; color: #666;">
-                            a.n. <strong>Yuji STORE</strong>
-                        </div>
+                        <div style="font-size: 1.2rem;">Kirim ke: <strong id="walletNumber">085803146015</strong> <button class="copy-btn" onclick="copyToClipboard('085803146015')">Copy</button></div>
+                        <div style="font-size: 1rem; color: #666;">a.n. <strong>Yuji STORE</strong></div>
                     </div>
-                    <div class="payment-instructions">
-                        <h4>Cara Pembayaran E-Wallet:</h4>
-                        <ol>
-                            <li>Buka aplikasi <span id="walletName">DANA</span></li>
-                            <li>Pilih menu "Kirim Uang" atau "Transfer"</li>
-                            <li>Masukkan nomor: <strong>085803146015</strong></li>
-                            <li>Masukkan nominal: <strong>Rp <span id="transferAmount">0</span></strong></li>
-                            <li>Tambahkan pesan: ID Pesanan <strong id="orderId"></strong></li>
-                            <li>Konfirmasi transfer</li>
-                        </ol>
-                    </div>
+                    <div class="payment-instructions"><h4>Cara Pembayaran E-Wallet:</h4><ol><li>Buka aplikasi <span id="walletName">DANA</span></li><li>Pilih menu "Kirim Uang"</li><li>Masukkan nomor: <strong>085803146015</strong></li><li>Masukkan nominal: <strong>Rp <span id="transferAmount">0</span></strong></li><li>Tambahkan pesan: ID Pesanan <strong id="orderId"></strong></li><li>Konfirmasi transfer</li></ol></div>
                 </div>
 
                 <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn" onclick="confirmPayment()" id="confirmBtn">
-                        <span class="loading" style="display: none;"></span>
-                        Saya Sudah Bayar
-                    </button>
+                    <button class="btn" onclick="confirmPayment()" id="confirmBtn"><span class="loading" style="display: none;"></span>Saya Sudah Bayar</button>
                 </div>
             </div>
         </div>
@@ -205,9 +136,7 @@
         <div class="modal-content" style="max-width: 400px;">
             <span class="close" onclick="closeSecretLinkModal()">&times;</span>
             <h3 id="modalLinkTitle">🔗 Link Private Server</h3>
-            <p style="word-break: break-all; background: #f0f0f0; padding: 10px; border-radius: 5px; margin: 15px 0;" id="secretLinkUrl">
-                https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server
-            </p>
+            <p style="word-break: break-all; background: #f0f0f0; padding: 10px; border-radius: 5px;" id="secretLinkUrl">https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d</p>
             <div style="display: flex; gap: 10px; justify-content: center;">
                 <button class="btn" onclick="openSecretLink()">Buka Link</button>
                 <button class="btn" onclick="copySecretLink()" style="background: #48bb78;">Salin Link</button>
