@@ -291,12 +291,31 @@ window.copyToClipboard = function(text) {
     navigator.clipboard.writeText(text).then(() => showNotification('Nomor disalin!'));
 };
 
-window.confirmPayment = function() {
+window.confirmPayment = async function() {
     const btn = document.getElementById('confirmBtn');
     btn.querySelector('.loading').style.display = 'inline-block';
     btn.disabled = true;
 
+    // Kirim email notifikasi
     sendEmail(orderData);
+
+    // Kurangi stok di objek stocks
+    const service = orderData.service;
+    // Ambil jumlah dari orderData.details (misal: "Jumlah: 5 batu")
+    const match = orderData.details.match(/Jumlah: (\d+)/);
+    if (match) {
+        const qty = parseInt(match[1]);
+        stocks[service] -= qty;
+
+        // Update ke GitHub
+        try {
+            await updateGithubStock(stocks);
+            showNotification(`Stok ${service} berkurang ${qty}`);
+        } catch (error) {
+            showNotification('Gagal update stok: ' + error.message, true);
+            // Kembalikan stok di memori? Atau biarkan saja
+        }
+    }
 
     setTimeout(() => {
         btn.querySelector('.loading').style.display = 'none';
