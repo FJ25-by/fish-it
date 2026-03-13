@@ -42,110 +42,46 @@ body {
     font-size: 1.1rem;
 }
 
-/* Status Bar */
+/* Status Bar lebih kecil */
 .status-bar {
-    position: absolute;
-    top: 15px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 0 20px;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.status-center {
-    margin-top: -10px;
-}
-
-.status-left,
-.status-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    pointer-events: auto;
-}
-
-.status-left {
-    flex: 1;
-    justify-content: flex-start;
-}
-
-.status-center {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-    justify-content: center;
-    flex: none;
-}
-
-.status-right {
-    flex: 1;
-    justify-content: flex-end;
+    top: 8px;
+    padding: 0 12px;
 }
 
 .status-item {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 5px 10px;
-    border-radius: 15px;
-    color: white;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    padding: 3px 8px;
+    font-size: 0.75rem;
+    border-radius: 10px;
 }
 
 .status-center .status-item {
-    flex-direction: column;
-    text-align: center;
-    gap: 2px;
-    padding: 8px 12px;
+    padding: 4px 8px;
+    gap: 0;
 }
 
 #time {
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 #date {
-    font-size: 0.8rem;
-    opacity: 0.9;
+    font-size: 0.6rem;
 }
 
 .battery-icon {
-    width: 20px;
-    height: 10px;
-    border: 1px solid white;
-    border-radius: 2px;
-    position: relative;
-    background: rgba(255, 255, 255, 0.2);
+    width: 14px;
+    height: 7px;
 }
 
 .battery-icon::after {
-    content: '';
-    position: absolute;
-    right: -3px;
-    top: 2px;
+    right: -2px;
+    top: 1px;
     width: 1px;
-    height: 4px;
-    background: white;
-    border-radius: 0 1px 1px 0;
-}
-
-.battery-fill {
-    height: 100%;
-    border-radius: 1px;
-    background: white;
-    transition: width 0.3s ease;
+    height: 3px;
 }
 
 .charging-icon {
-    font-size: 0.7rem;
-    margin-left: 3px;
+    font-size: 0.5rem;
 }
 
 /* Service Cards */
