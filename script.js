@@ -35,14 +35,14 @@ const products = [
         name: 'Big Elpirate Gran Maja', 
         icon: '🏴‍☠️', 
         desc: 'Big Elpirate Gran Maja.', 
-        priceOptions: [{qty:1, price:3000}, {qty:2, price:5000}],
+        priceOptions: [{qty:1, price:2000}, {qty:2, price:3000}],
         initialStock: 10
     },
     { 
         name: 'Maja Maxton mutasi pasir', 
         icon: '🐠', 
         desc: 'Maja Maxton mutasi pasir.', 
-        priceOptions: [{qty:1, price:2000}],
+        priceOptions: [{qty:1, price:800}],
         initialStock: 10
     },
     { 
