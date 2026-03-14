@@ -6,16 +6,18 @@
     <title>Admin Panel - Yuji Store</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .admin-container { max-width: 600px; margin: 50px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .admin-container { max-width: 800px; margin: 50px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .login-form { text-align: center; }
         .login-form input, .login-form textarea { width: 100%; padding: 10px; margin: 10px 0; border: 2px solid #e2e8f0; border-radius: 8px; }
-        .stock-item { margin: 15px 0; padding: 15px; background: #f7fafc; border-radius: 8px; }
-        .stock-item label { display: inline-block; width: 150px; }
-        .stock-item input { width: 80px; padding: 8px; border: 2px solid #e2e8f0; border-radius: 5px; }
-        .btn-admin { background: #48bb78; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1rem; }
+        .stock-list { margin: 20px 0; max-height: 400px; overflow-y: auto; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; }
+        .stock-item { margin: 10px 0; padding: 10px; background: #f7fafc; border-radius: 8px; display: flex; align-items: center; gap: 10px; }
+        .stock-item label { flex: 2; font-weight: 600; }
+        .stock-item input { flex: 1; width: 100px; padding: 8px; border: 2px solid #e2e8f0; border-radius: 5px; }
+        .btn-admin { background: #48bb78; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1rem; margin: 5px; }
         .btn-admin:hover { background: #38a169; }
         .logout { float: right; background: #e53e3e; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
         .info { background: #e6f7ff; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 0.9rem; text-align: left; }
+        .status-message { margin-top: 20px; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -24,12 +26,13 @@
         
         <div id="loginSection" class="login-form">
             <div class="info">
-                <strong>⚠️ KHUSUS ADMIN ⚠️</strong>
+                <strong>⚠️ KHUSUS ADMIN ⚠️</strong><br>
+                Masukkan token GitHub dan informasi repository tempat menyimpan stock.json.
             </div>
             <input type="text" id="githubToken" placeholder="GitHub Token" required>
             <input type="text" id="repoOwner" placeholder="Owner (username)" required>
             <input type="text" id="repoName" placeholder="Nama Repository" required>
-            <input type="text" id="filePath" placeholder="Path file (misal: stock.json)" required>
+            <input type="text" id="filePath" placeholder="Path file (misal: stock.json)" value="stock.json" required>
             <input type="text" id="branch" placeholder="Branch (misal: main)" value="main" required>
             <button class="btn-admin" onclick="loginWithToken()">Login & Muat Stok</button>
         </div>
@@ -37,28 +40,20 @@
         <div id="stockSection" style="display:none;">
             <button class="logout" onclick="logout()">Logout</button>
             <h3>Update Stok Produk</h3>
-            <div class="stock-form">
-                <div class="stock-item">
-                    <label>SECRET TUMBAL:</label>
-                    <input type="number" id="admin-stock-secret" min="0" value="20">
-                    <button class="btn-admin" onclick="updateStock('SECRET TUMBAL')">Update</button>
-                </div>
-                <div class="stock-item">
-                    <label>Evolved Enchant Stone:</label>
-                    <input type="number" id="admin-stock-stone" min="0" value="20">
-                    <button class="btn-admin" onclick="updateStock('Evolved Enchant Stone')">Update</button>
-                </div>
+            <div class="stock-list" id="stockList"></div>
+            <div style="text-align:center;">
+                <button class="btn-admin" onclick="updateAllStocks()">Simpan Semua Perubahan</button>
             </div>
-            <div id="statusMessage" style="margin-top:20px; text-align:center;"></div>
-            <div class="back-link">
+            <div id="statusMessage" class="status-message"></div>
+            <div class="back-link" style="text-align:center; margin-top:20px;">
                 <a href="index.html" target="_blank">Kembali ke Toko</a>
             </div>
         </div>
     </div>
 
     <script>
-        // Variabel konfigurasi
         let config = {};
+        let originalStocks = {}; // untuk menyimpan stok saat login
 
         function loginWithToken() {
             const token = document.getElementById('githubToken').value.trim();
@@ -83,11 +78,11 @@
             })
             .then(data => {
                 const content = atob(data.content);
-                const stocks = JSON.parse(content);
-                document.getElementById('admin-stock-secret').value = stocks['SECRET TUMBAL'] || 20;
-                document.getElementById('admin-stock-stone').value = stocks['Evolved Enchant Stone'] || 20;
-
+                originalStocks = JSON.parse(content);
                 config.sha = data.sha;
+
+                // Tampilkan form stok
+                renderStockForm(originalStocks);
                 document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('stockSection').style.display = 'block';
                 document.getElementById('statusMessage').innerHTML = '';
@@ -97,30 +92,39 @@
             });
         }
 
-        function logout() {
-            config = {};
-            document.getElementById('loginSection').style.display = 'block';
-            document.getElementById('stockSection').style.display = 'none';
+        function renderStockForm(stocks) {
+            const container = document.getElementById('stockList');
+            container.innerHTML = '';
+            for (let [productName, stock] of Object.entries(stocks)) {
+                const div = document.createElement('div');
+                div.className = 'stock-item';
+                div.innerHTML = `
+                    <label>${productName}</label>
+                    <input type="number" id="stock-${productName.replace(/\s+/g, '-')}" value="${stock}" min="0">
+                `;
+                container.appendChild(div);
+            }
         }
 
-        function updateStock(productName) {
+        function updateAllStocks() {
             if (!config.sha) {
                 alert('Silakan login ulang');
                 return;
             }
 
-            const newSecret = parseInt(document.getElementById('admin-stock-secret').value);
-            const newStone = parseInt(document.getElementById('admin-stock-stone').value);
-
-            if (isNaN(newSecret) || newSecret < 0 || isNaN(newStone) || newStone < 0) {
-                alert('Masukkan angka valid');
-                return;
-            }
-
-            const updatedStocks = {
-                'SECRET TUMBAL': newSecret,
-                'Evolved Enchant Stone': newStone
-            };
+            // Kumpulkan semua nilai stok dari form
+            const updatedStocks = {};
+            const inputs = document.querySelectorAll('#stockList .stock-item input');
+            inputs.forEach(input => {
+                // Ambil nama produk dari label di depan input
+                const label = input.previousElementSibling.textContent;
+                const value = parseInt(input.value);
+                if (isNaN(value) || value < 0) {
+                    alert(`Stok untuk ${label} harus angka valid`);
+                    return;
+                }
+                updatedStocks[label] = value;
+            });
 
             const content = btoa(JSON.stringify(updatedStocks, null, 2));
 
@@ -131,7 +135,7 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    message: `Update stok via admin (${productName})`,
+                    message: 'Update stok via admin panel',
                     content: content,
                     sha: config.sha,
                     branch: config.branch
@@ -149,6 +153,13 @@
             .catch(err => {
                 document.getElementById('statusMessage').innerHTML = `<span style="color:red;">❌ Error: ${err.message}</span>`;
             });
+        }
+
+        function logout() {
+            config = {};
+            originalStocks = {};
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('stockSection').style.display = 'none';
         }
     </script>
 </body>
