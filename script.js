@@ -1,18 +1,178 @@
 // ================== KONFIGURASI ==================
-// Ganti dengan RAW URL file stocks.json Anda
 const STOCKS_RAW_URL = 'https://raw.githubusercontent.com/FJ25-by/fish-it/main/stock.json?t=' + Date.now();
 
-// Data link produk
-const productLinks = {
-    'SECRET TUMBAL': 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server',
-    'Evolved Enchant Stone': 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server'
-};
+// Data semua produk
+const products = [
+    { 
+        name: 'SECRET TUMBAL', 
+        icon: '🐟', 
+        desc: 'Produk spesial dengan harga spesial. Dapatkan link Private Server setelah pembayaran.', 
+        priceOptions: [{qty:1, price:400}, {qty:5, price:2000}, {qty:10, price:4000}],
+        initialStock: 20
+    },
+    { 
+        name: 'Evolved Enchant Stone', 
+        icon: '🔮', 
+        desc: 'Batu enchant untuk meningkatkan pancinganmu. Dapatkan link Private Server setelah pembayaran.', 
+        priceOptions: [{qty:1, price:450}, {qty:5, price:2000}, {qty:10, price:4000}],
+        initialStock: 20
+    },
+    { 
+        name: 'ANCIENT MAGMA WHALE MAXTON', 
+        icon: '🐋', 
+        desc: 'Ancient Magma Whale Maxton.', 
+        priceOptions: [{qty:1, price:3000}, {qty:2, price:5000}, {qty:3, price:7500}, {qty:4, price:10000}, {qty:5, price:13000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Big Leviathan', 
+        icon: '🐉', 
+        desc: 'Big Leviathan.', 
+        priceOptions: [{qty:1, price:4000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Big Elpirate Gran Maja', 
+        icon: '🏴‍☠️', 
+        desc: 'Big Elpirate Gran Maja.', 
+        priceOptions: [{qty:1, price:3000}, {qty:2, price:5000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Maja Maxton mutasi pasir', 
+        icon: '🐚', 
+        desc: 'Maja Maxton mutasi pasir.', 
+        priceOptions: [{qty:1, price:2000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Maja', 
+        icon: '🐠', 
+        desc: 'Maja.', 
+        priceOptions: [{qty:1, price:500}, {qty:2, price:800}, {qty:3, price:1000}, {qty:4, price:1200}, {qty:5, price:1500}],
+        initialStock: 10
+    },
+    { 
+        name: 'Mega Pirate Maxton', 
+        icon: '🦈', 
+        desc: 'Mega Pirate Maxton.', 
+        priceOptions: [{qty:1, price:3000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Mega Pirate', 
+        icon: '🦑', 
+        desc: 'Mega Pirate.', 
+        priceOptions: [{qty:1, price:2000}],
+        initialStock: 10
+    },
+    { 
+        name: 'All Mega Pirate (MAXTON dan biasa)', 
+        icon: '⚓', 
+        desc: 'All Mega Pirate.', 
+        priceOptions: [{qty:1, price:4000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Kraken', 
+        icon: '🐙', 
+        desc: 'Kraken.', 
+        priceOptions: [{qty:1, price:2000}, {qty:2, price:3000}, {qty:3, price:5000}, {qty:4, price:6000}, {qty:5, price:7000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Big Ancient Lochness (Dino Ruin)', 
+        icon: '🦕', 
+        desc: 'Big Ancient Lochness.', 
+        priceOptions: [{qty:1, price:4000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Bone Whale Maxton', 
+        icon: '🦴', 
+        desc: 'Bone Whale Maxton.', 
+        priceOptions: [{qty:1, price:2000}],
+        initialStock: 10
+    },
+    { 
+        name: '1x1x1x Comet Shark mutasi Frozen', 
+        icon: '❄️', 
+        desc: 'Comet Shark mutasi Frozen.', 
+        priceOptions: [{qty:1, price:4000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Big Emerald', 
+        icon: '💚', 
+        desc: 'Big Emerald.', 
+        priceOptions: [{qty:1, price:3000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Big Scare', 
+        icon: '👻', 
+        desc: 'Big Scare.', 
+        priceOptions: [{qty:1, price:2000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Big King Jelly', 
+        icon: '👑', 
+        desc: 'Big King Jelly.', 
+        priceOptions: [{qty:1, price:3000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Crystal Crab Maxton', 
+        icon: '🦀', 
+        desc: 'Crystal Crab Maxton.', 
+        priceOptions: [{qty:1, price:2000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Monster Shark', 
+        icon: '🦈', 
+        desc: 'Monster Shark.', 
+        priceOptions: [{qty:1, price:2000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Worm', 
+        icon: '🪱', 
+        desc: 'Worm.', 
+        priceOptions: [{qty:1, price:1000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Great Whale Maxton', 
+        icon: '🐳', 
+        desc: 'Great Whale Maxton.', 
+        priceOptions: [{qty:1, price:5000}],
+        initialStock: 10
+    },
+    { 
+        name: 'Great Whale', 
+        icon: '🐋', 
+        desc: 'Great Whale.', 
+        priceOptions: [{qty:1, price:2000}],
+        initialStock: 10
+    },
+    { 
+        name: 'All Great Whale (Maxton dan biasa)', 
+        icon: '🐋', 
+        desc: 'All Great Whale.', 
+        priceOptions: [{qty:1, price:6000}],
+        initialStock: 10
+    }
+];
 
-// State stok
-let stocks = {
-    'SECRET TUMBAL': 20,
-    'Evolved Enchant Stone': 20
-};
+// Link produk (gunakan default yang sama untuk semua)
+const DEFAULT_LINK = 'https://www.roblox.com/share?code=751cedb08a1fc342ac184753d7062d9d&type=Server';
+const productLinks = {};
+products.forEach(p => productLinks[p.name] = DEFAULT_LINK);
+
+// State stok (akan diisi dari GitHub)
+let stocks = {};
 
 // ================== FUNGSI STATUS BAR ==================
 emailjs.init('QKFRgvCcL8DVQSzbw'); // Public key EmailJS Anda
@@ -68,45 +228,52 @@ async function loadStocks() {
     try {
         const response = await fetch(STOCKS_RAW_URL);
         if (response.ok) {
-            stocks = await response.json();
+            const remoteStocks = await response.json();
+            // Gabungkan dengan data produk (pastikan semua produk ada)
+            products.forEach(p => {
+                if (remoteStocks[p.name] !== undefined) {
+                    stocks[p.name] = remoteStocks[p.name];
+                } else {
+                    stocks[p.name] = p.initialStock;
+                }
+            });
         } else {
             console.warn('Gagal memuat stok, gunakan default');
+            products.forEach(p => stocks[p.name] = p.initialStock);
         }
     } catch (error) {
         console.error('Error fetching stocks:', error);
+        products.forEach(p => stocks[p.name] = p.initialStock);
     }
-    updateStockDisplay();
+    renderProducts();
 }
 
-function updateStockDisplay() {
-    document.getElementById('stock-secret').textContent = stocks['SECRET TUMBAL'];
-    document.getElementById('stock-stone').textContent = stocks['Evolved Enchant Stone'];
-
-    const secretBtn = document.querySelector('#product-secret .btn');
-    const stoneBtn = document.querySelector('#product-stone .btn');
-
-    if (stocks['SECRET TUMBAL'] <= 0) {
-        secretBtn.disabled = true;
-        secretBtn.innerHTML = 'Stok Habis';
-    } else {
-        secretBtn.disabled = false;
-        secretBtn.innerHTML = `Pesan Sekarang (STOK: <span id="stock-secret">${stocks['SECRET TUMBAL']}</span>)`;
-    }
-    if (stocks['Evolved Enchant Stone'] <= 0) {
-        stoneBtn.disabled = true;
-        stoneBtn.innerHTML = 'Stok Habis';
-    } else {
-        stoneBtn.disabled = false;
-        stoneBtn.innerHTML = `Pesan Sekarang (STOK: <span id="stock-stone">${stocks['Evolved Enchant Stone']}</span>)`;
-    }
+// Render semua kartu produk
+function renderProducts() {
+    const grid = document.getElementById('servicesGrid');
+    grid.innerHTML = '';
+    products.forEach(product => {
+        const stock = stocks[product.name] || 0;
+        const card = document.createElement('div');
+        card.className = 'service-card';
+        card.id = `product-${product.name.replace(/\s+/g, '-')}`;
+        card.innerHTML = `
+            <h3><span class="icon">${product.icon}</span>${product.name}</h3>
+            <p>${product.desc}</p>
+            <div class="price">Mulai Rp ${product.priceOptions[0].price.toLocaleString('id-ID')}</div>
+            <button class="btn" onclick="openModal('${product.name.replace(/'/g, "\\'")}')" ${stock <= 0 ? 'disabled' : ''}>
+                ${stock <= 0 ? 'Stok Habis' : `Pesan Sekarang (STOK: <span id="stock-${product.name.replace(/\s+/g, '-')}">${stock}</span>)`}
+            </button>
+        `;
+        grid.appendChild(card);
+    });
 }
-
-loadStocks();
 
 // ================== VARIABEL MODAL ==================
 let selectedPayment = '';
 let selectedQty = null;
 let selectedPrice = null;
+let selectedProduct = null;
 let orderData = {};
 let countdownInterval;
 
@@ -123,6 +290,7 @@ function showNotification(message, isError = false) {
 }
 
 window.openModal = function(service) {
+    selectedProduct = service;
     if (stocks[service] <= 0) {
         showNotification(`⛔ Maaf, stok ${service} sedang habis!`, true);
         return;
@@ -131,25 +299,14 @@ window.openModal = function(service) {
     document.getElementById('service').value = service;
     document.getElementById('stockDisplay').textContent = stocks[service];
 
+    // Cari produk
+    const product = products.find(p => p.name === service);
+    if (!product) return;
+
     const container = document.getElementById('stoneOptionsContainer');
     container.innerHTML = '';
 
-    let options = [];
-    if (service === 'SECRET TUMBAL') {
-        options = [
-            { qty: 1, price: 400 },
-            { qty: 5, price: 2000 },
-            { qty: 10, price: 4000 }
-        ];
-    } else {
-        options = [
-            { qty: 1, price: 450 },
-            { qty: 5, price: 2000 },
-            { qty: 10, price: 4000 }
-        ];
-    }
-
-    options.forEach(opt => {
+    product.priceOptions.forEach(opt => {
         const div = document.createElement('div');
         div.className = 'stone-option';
         div.dataset.qty = opt.qty;
@@ -200,7 +357,7 @@ window.processOrder = function(event) {
         return;
     }
 
-    // Stok tidak dikurangi otomatis (admin akan update manual)
+    // Buat ID pesanan
     const orderId = 'ORD' + Date.now();
     const customerPhone = document.getElementById('phone').value;
     const details = document.getElementById('details').value;
@@ -211,7 +368,7 @@ window.processOrder = function(event) {
         customerPhone: customerPhone,
         amount: selectedPrice.toLocaleString('id-ID'),
         paymentMethod: selectedPayment.toUpperCase(),
-        details: details ? details + ` (Jumlah: ${selectedQty} batu)` : `Jumlah: ${selectedQty} batu`,
+        details: details ? details + ` (Jumlah: ${selectedQty})` : `Jumlah: ${selectedQty}`,
         timestamp: new Date().toLocaleString('id-ID')
     };
 
@@ -287,7 +444,7 @@ function sendEmail(order) {
 }
 
 function showProductLink(service) {
-    document.getElementById('secretLinkUrl').textContent = productLinks[service];
+    document.getElementById('secretLinkUrl').textContent = productLinks[service] || DEFAULT_LINK;
     document.getElementById('modalLinkTitle').innerHTML = '🔗 Link Private Server';
     document.getElementById('secretLinkModal').style.display = 'block';
 }
@@ -310,6 +467,7 @@ function resetForm() {
     selectedPayment = '';
     selectedQty = null;
     selectedPrice = null;
+    selectedProduct = null;
     document.querySelectorAll('.stone-option').forEach(el => el.classList.remove('selected'));
     document.getElementById('qrisSection').style.display = 'none';
     document.getElementById('ewalletSection').style.display = 'none';
@@ -322,3 +480,6 @@ window.onclick = function(event) {
     if (event.target === secretModal) secretModal.style.display = 'none';
     if (event.target === orderModal) closeModal();
 };
+
+// Muat stok dan render produk saat halaman dimuat
+loadStocks();
