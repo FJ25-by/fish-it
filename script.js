@@ -40,7 +40,7 @@ const products = [
     },
     { 
         name: 'Maja Maxton mutasi pasir', 
-        icon: '🐚', 
+        icon: '🐠', 
         desc: 'Maja Maxton mutasi pasir.', 
         priceOptions: [{qty:1, price:2000}],
         initialStock: 10
@@ -61,7 +61,7 @@ const products = [
     },
     { 
         name: 'Mega Pirate', 
-        icon: '🦑', 
+        icon: '🦈', 
         desc: 'Mega Pirate.', 
         priceOptions: [{qty:1, price:2000}],
         initialStock: 10
@@ -110,14 +110,14 @@ const products = [
     },
     { 
         name: 'Big Scare', 
-        icon: '👻', 
+        icon: '🐟', 
         desc: 'Big Scare.', 
         priceOptions: [{qty:1, price:2000}],
         initialStock: 10
     },
     { 
         name: 'Big King Jelly', 
-        icon: '👑', 
+        icon: 'ଳ', 
         desc: 'Big King Jelly.', 
         priceOptions: [{qty:1, price:3000}],
         initialStock: 10
